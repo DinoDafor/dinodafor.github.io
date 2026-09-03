@@ -32,10 +32,40 @@ SKIP_CONTENT = {'width=device-width, initial-scale=1', 'utf-8'}
 
 CYRILLIC = re.compile('[а-яА-ЯёЁ]')
 
-# курс берём из script.js, чтобы он жил ровно в одном месте
-_rate = re.search(r"RATES = \{ RUB: 1, USD: (\d+)",
-                  open(os.path.join(BASE, 'script.js'), encoding='utf-8').read())
-USD_RATE = int(_rate.group(1)) if _rate else 95
+RATE_FILE = os.path.join(BASE, 'rate.json')
+RATE_API = 'https://www.cbr-xml-daily.ru/daily_json.js'
+RATE_FALLBACK = 95.0
+
+
+def fetch_rate():
+    """Курс доллара у ЦБ. Если не ответил — берём прошлый, потом запасной.
+
+    Сборка не должна падать из-за чужого сервера: цены просто
+    останутся такими, какими были в прошлый раз.
+    """
+    try:
+        import urllib.request
+        with urllib.request.urlopen(RATE_API, timeout=10) as response:
+            data = json.loads(response.read().decode('utf-8'))
+        value = float(data['Valute']['USD']['Value'])
+        date = data['Date'][:10]
+        json.dump({'usd': round(value, 4), 'date': date, 'source': 'ЦБ РФ'},
+                  open(RATE_FILE, 'w', encoding='utf-8'), ensure_ascii=False, indent=2)
+        print('курс ЦБ на %s: 1 $ = %.2f ₽' % (date, value))
+        return value, date
+    except Exception as error:                       # noqa: BLE001 — причина не важна
+        print('курс не получен (%s), берём сохранённый' % error)
+
+    if os.path.exists(RATE_FILE):
+        saved = json.load(open(RATE_FILE, encoding='utf-8'))
+        print('сохранённый курс на %s: 1 $ = %.2f ₽' % (saved['date'], saved['usd']))
+        return float(saved['usd']), saved['date']
+
+    print('курс не найден совсем, берём запасной: %.2f' % RATE_FALLBACK)
+    return RATE_FALLBACK, ''
+
+
+USD_RATE, USD_RATE_DATE = fetch_rate()
 
 
 def usd(rub):
@@ -225,7 +255,12 @@ def build_page(ru_rel):
     block = hreflang_block(ru_rel)
     if 'rel="alternate"' not in src:
         src = src.replace('  <link rel="stylesheet"', block + '  <link rel="stylesheet"')
-        open(os.path.join(BASE, ru_rel), 'w', encoding='utf-8').write(src)
+
+    # курс в мета-теге: страница знает его сразу, без запроса к API
+    meta = '  <meta name="usd-rate" content="%.4f" data-date="%s">\n' % (USD_RATE, USD_RATE_DATE)
+    src = re.sub(r'  <meta name="usd-rate"[^>]*>\n', '', src)
+    src = src.replace('  <link rel="stylesheet"', meta + '  <link rel="stylesheet"')
+    open(os.path.join(BASE, ru_rel), 'w', encoding='utf-8').write(src)
 
     builder = Builder(ru_rel)
     builder.feed(src)

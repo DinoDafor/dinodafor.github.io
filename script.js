@@ -356,17 +356,40 @@
 
   /* ---- 6. Валюта ----
      Русская версия считает в рублях, английская — в долларах.
-     КУРС ЗАДАЁТСЯ ЗДЕСЬ И ОБНОВЛЯЕТСЯ РУКАМИ. Внешнее API не используется
-     намеренно: оно однажды молча отвалится, и сайт покажет ерунду.
-     Тот же курс берёт build.py, когда пересчитывает цены в en/,
-     поэтому править его нужно только в этой строке.
 
-     RATES — сколько рублей в одной единице валюты. */
+     Курс живёт в трёх уровнях, каждый следующий — страховка предыдущего:
+       1) свежий курс ЦБ, запрошенный браузером (только английская версия);
+       2) курс, запечённый в мета-тег при сборке build.py;
+       3) запасное значение в коде — если не сработало ничего.
+     Поэтому отказ чужого API не ломает цены, а лишь оставляет их
+     на последнем известном значении. */
 
-  var RATES = { RUB: 1, USD: 95 };
-  var RATE_DATE = isEnglish ? '3 September 2026' : '3 сентября 2026';
+  var RATE_API = 'https://www.cbr-xml-daily.ru/daily_json.js';
+  var RATE_CACHE_KEY = 'usd-rate';
+  var RATE_TTL = 12 * 60 * 60 * 1000;          // не чаще двух раз в сутки
+
+  var rateMeta = document.querySelector('meta[name="usd-rate"]');
+  var bakedRate = rateMeta ? parseFloat(rateMeta.getAttribute('content')) : NaN;
+  var bakedDate = rateMeta ? rateMeta.getAttribute('data-date') : '';
+
+  var RATES = { RUB: 1, USD: bakedRate > 0 ? bakedRate : 95 };
+  var RATE_DATE = bakedDate;
 
   var currency = isEnglish ? 'USD' : 'RUB';
+
+  // «2026-09-03» → «3 September 2026» или «3 сентября 2026»
+  var humanDate = function (iso) {
+    if (!iso) { return ''; }
+    var parts = iso.split('-');
+    var date = new Date(parts[0], parts[1] - 1, parts[2]);
+    if (isNaN(date.getTime())) { return iso; }
+    try {
+      return date.toLocaleDateString(isEnglish ? 'en-GB' : 'ru-RU',
+        { day: 'numeric', month: 'long', year: 'numeric' });
+    } catch (e) {
+      return iso;
+    }
+  };
 
   var calcUpdate = null;   // калькулятор подставит сюда свою перерисовку
 
@@ -417,8 +440,9 @@
     var notes = document.querySelectorAll('[data-rate-note]');
     Array.prototype.forEach.call(notes, function (note) {
       if (isEnglish) {
-        note.textContent = 'Dollar figures are converted at the rate of ' + RATE_DATE +
-          ' (1 USD = ' + RATES.USD + ' RUB); the contract amount is fixed in roubles.';
+        note.textContent = 'Dollar figures use the Bank of Russia rate of ' +
+          humanDate(RATE_DATE) + ' (1 USD = ' + RATES.USD.toFixed(2) +
+          ' RUB); the contract amount is fixed in roubles.';
       } else {
         note.hidden = true;
       }
@@ -428,6 +452,49 @@
   };
 
   applyCurrency();
+
+  /* Свежий курс ЦБ. Запрашиваем только на английской версии и не чаще
+     раза в 12 часов; любая ошибка — молча остаёмся на запечённом курсе. */
+
+  var useRate = function (value, date) {
+    if (!(value > 0) || Math.abs(value - RATES.USD) < 0.005) { return; }
+    RATES.USD = value;
+    RATE_DATE = date || RATE_DATE;
+    applyCurrency();
+  };
+
+  var refreshRate = function () {
+    if (!isEnglish || !window.fetch) { return; }
+
+    var cached = null;
+    try { cached = JSON.parse(window.localStorage.getItem(RATE_CACHE_KEY)); } catch (e) {}
+
+    if (cached && cached.value && Date.now() - cached.time < RATE_TTL) {
+      useRate(cached.value, cached.date);
+      return;
+    }
+
+    window.fetch(RATE_API, { cache: 'no-cache' })
+      .then(function (response) {
+        if (!response.ok) { throw new Error('rate ' + response.status); }
+        return response.json();
+      })
+      .then(function (data) {
+        var value = parseFloat(data.Valute.USD.Value);
+        var date = String(data.Date).slice(0, 10);
+        if (!(value > 0)) { throw new Error('bad rate'); }
+
+        try {
+          window.localStorage.setItem(RATE_CACHE_KEY,
+            JSON.stringify({ value: value, date: date, time: Date.now() }));
+        } catch (e) {}
+
+        useRate(value, date);
+      })
+      .catch(function () { /* остаёмся на запечённом курсе */ });
+  };
+
+  refreshRate();
 
   /* ---- 7. Калькулятор ----
      Все цены и сроки живут в data-атрибутах разметки,

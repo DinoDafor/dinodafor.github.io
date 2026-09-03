@@ -701,6 +701,8 @@ STRINGS = {
         'Yandex LLC, as the analytics provider, to the extent described in section 3;',
     'компании GitHub, Inc., на инфраструктуре которой размещён Сайт (GitHub Pages) и которая обрабатывает технические данные о запросах к серверу;':
         'GitHub, Inc., whose infrastructure hosts the Site (GitHub Pages) and which processes technical data about server requests;',
+    'сервису cbr-xml-daily.ru — при открытии англоязычной версии Сайта браузер запрашивает у него официальный курс доллара, передавая IP-адрес и данные браузера;':
+        'cbr-xml-daily.ru — when the English version of the Site is opened, your browser requests the official dollar exchange rate from it, sending your IP address and browser details;',
     'случаев, когда передача требуется по закону — по мотивированному запросу уполномоченных государственных органов.':
         'cases where disclosure is required by law, upon a substantiated request from authorised state bodies.',
     'Часть указанных лиц находится за пределами Российской Федерации; трансграничная передача осуществляется в объёме, необходимом для работы соответствующих сервисов.':

@@ -129,15 +129,59 @@
     }
   }
 
-  /* ---- 5. Диалог с ботом на первом экране ----
-     Реплики лежат в разметке, здесь они показываются по очереди.
-     Перед ответами бота мигают три точки. Проигрывается один раз,
-     когда мокап попадает в поле зрения. */
+  /* ---- 5. Демо-бот на первом экране ----
+     В разметке лежит статичный диалог — его видно без JS и при
+     отключённой анимации. Если скрипт работает, лог очищается
+     и запускается интерактивный сценарий: кнопки можно нажимать.
+
+     СЦЕНАРИЙ МЕНЯЕТСЯ ЗДЕСЬ. Каждый шаг: текст бота и варианты ответа.
+     {choice} в тексте подставляет то, что выбрал посетитель. */
+
+  var scenario = {
+    start: {
+      text: 'Здравствуйте! Я бот студии. Записать вас или ответить на вопрос?',
+      choices: [
+        { label: 'Записаться', next: 'branch' },
+        { label: 'Сколько стоит', next: 'price' }
+      ]
+    },
+    price: {
+      text: 'Маникюр — от 1 500 ₽, педикюр — от 2 000 ₽, покрытие входит. Записать?',
+      choices: [
+        { label: 'Да, записаться', next: 'branch' },
+        { label: 'Спасибо, позже', next: 'bye' }
+      ]
+    },
+    branch: {
+      text: 'В какой филиал удобно?',
+      choices: [
+        { label: 'На Ленина', next: 'time' },
+        { label: 'На Мира', next: 'time' }
+      ]
+    },
+    time: {
+      text: 'Завтра свободно. Выберите время:',
+      choices: [
+        { label: '11:00', next: 'done' },
+        { label: '14:30', next: 'done' },
+        { label: '18:00', next: 'done' }
+      ]
+    },
+    done: {
+      text: 'Записала вас на {choice}, мастер Ольга. Напомню за 3 часа — заявка уже у администратора в таблице.',
+      ok: true,
+      end: true
+    },
+    bye: {
+      text: 'Хорошего дня! Если передумаете, я на месте круглосуточно.',
+      end: true
+    }
+  };
 
   var log = document.querySelector('.chat__log');
 
   if (log) {
-    var msgs = Array.prototype.slice.call(log.children);
+    var staticMsgs = Array.prototype.slice.call(log.children);
 
     var mount = function (el) {
       el.classList.add('is-mounted');
@@ -146,40 +190,99 @@
     };
 
     if (reduceMotion || !('IntersectionObserver' in window)) {
-      msgs.forEach(mount);
+      staticMsgs.forEach(mount);
     } else {
+      var lastChoice = '';
+
       var typing = document.createElement('li');
       typing.className = 'msg msg--out msg--typing';
       typing.innerHTML = '<i></i><i></i><i></i>';
 
-      var step = function (i) {
-        if (i >= msgs.length) { return; }
+      var addMessage = function (text, kind) {
+        var li = document.createElement('li');
+        li.className = 'msg ' + kind;
+        li.textContent = text.replace('{choice}', lastChoice);
+        log.appendChild(li);
+        mount(li);
+        return li;
+      };
 
-        var el = msgs[i];
-        var fromBot = el.classList.contains('msg--out');
-        var pause = i === 0 ? 500 : 800;
+      var addChoices = function (choices) {
+        var li = document.createElement('li');
+        li.className = 'msg msg--chips';
+
+        choices.forEach(function (choice) {
+          var button = document.createElement('button');
+          button.type = 'button';
+          button.className = 'chip';
+          button.textContent = choice.label;
+
+          button.addEventListener('click', function () {
+            li.parentNode && li.parentNode.removeChild(li);
+            lastChoice = choice.label;
+            addMessage(choice.label, 'msg--in');
+            step(choice.next);
+          });
+
+          li.appendChild(button);
+        });
+
+        log.appendChild(li);
+        mount(li);
+      };
+
+      var addFinish = function () {
+        var li = document.createElement('li');
+        li.className = 'msg msg--chips chat__finish';
+
+        var again = document.createElement('button');
+        again.type = 'button';
+        again.className = 'chip';
+        again.textContent = '↻ Ещё раз';
+        again.addEventListener('click', function () {
+          log.innerHTML = '';
+          lastChoice = '';
+          step('start');
+        });
+
+        var order = document.createElement('a');
+        order.className = 'chip chip--accent';
+        order.href = 'https://t.me/DinoDafor?text=' +
+          encodeURIComponent('Здравствуйте! Пишу с сайта. Хочу такого же бота:');
+        order.textContent = 'Хочу такого же →';
+
+        li.appendChild(again);
+        li.appendChild(order);
+        log.appendChild(li);
+        mount(li);
+      };
+
+      var step = function (key) {
+        var node = scenario[key];
+        if (!node) { return; }
+
+        log.appendChild(typing);
+        mount(typing);
 
         setTimeout(function () {
-          if (!fromBot) {
-            mount(el);
-            step(i + 1);
-            return;
+          if (typing.parentNode) { typing.parentNode.removeChild(typing); }
+          typing.classList.remove('is-mounted', 'is-shown');
+
+          addMessage(node.text, node.ok ? 'msg--out msg--ok' : 'msg--out');
+
+          if (node.choices) {
+            setTimeout(function () { addChoices(node.choices); }, 350);
+          } else if (node.end) {
+            setTimeout(addFinish, 600);
           }
-          log.appendChild(typing);
-          mount(typing);
-          setTimeout(function () {
-            if (typing.parentNode) { typing.parentNode.removeChild(typing); }
-            typing.classList.remove('is-mounted', 'is-shown');
-            mount(el);
-            step(i + 1);
-          }, 850);
-        }, pause);
+        }, 900);
       };
 
       var chatObserver = new IntersectionObserver(function (entries, obs) {
         if (entries[0].isIntersecting) {
           obs.disconnect();
-          step(0);
+          log.innerHTML = '';       // убираем статичный запасной диалог
+          step('start');
         }
       }, { threshold: 0.25 });
 
@@ -279,7 +382,53 @@
     update();
   }
 
-  /* ---- 7. Кнопки «скопировать» у контактов ---- */
+  /* ---- 7. Бриф: ответы собираются в сообщение для Telegram ----
+     Ничего никуда не отправляется: скрипт только строит текст ссылки. */
+
+  var brief = document.querySelector('.brief');
+
+  if (brief) {
+    var briefLink = document.getElementById('brief-send');
+
+    var questions = [
+      ['business', 'Бизнес'],
+      ['pain', 'Что упростить'],
+      ['kind', 'Что нужно'],
+      ['tools', 'Сейчас пользуются'],
+      ['users', 'Кто пользуется'],
+      ['deadline', 'Сроки'],
+      ['budget', 'Бюджет'],
+      ['extra', 'Ещё важно']
+    ];
+
+    var collect = function () {
+      var lines = ['Здравствуйте! Пишу с сайта, заполнил бриф.', ''];
+
+      questions.forEach(function (pair) {
+        var name = pair[0];
+        var field = brief.querySelector('[name="' + name + '"]');
+        var value = '';
+
+        if (field && field.tagName === 'TEXTAREA') {
+          value = field.value.trim();
+        } else {
+          var checked = brief.querySelector('[name="' + name + '"]:checked');
+          value = checked ? checked.value : '';
+        }
+
+        if (value) { lines.push(pair[1] + ': ' + value); }
+      });
+
+      briefLink.href = 'https://t.me/DinoDafor?text=' + encodeURIComponent(lines.join('\n'));
+    };
+
+    brief.addEventListener('input', collect);
+    brief.addEventListener('change', collect);
+    brief.addEventListener('submit', function (e) { e.preventDefault(); });
+    collect();
+  }
+
+  /* ---- 8. Кнопки «скопировать» у контактов ---- */
 
   var copyButtons = document.querySelectorAll('.copy');
 
@@ -303,7 +452,7 @@
     });
   });
 
-  /* ---- 8. Яндекс.Метрика ----
+  /* ---- 9. Яндекс.Метрика ----
      ВПИШИТЕ НОМЕР СЧЁТЧИКА в METRIKA_ID (только цифры, в кавычках).
      Пока строка пустая, никакая статистика не собирается и запросы не идут.
      Счётчик заводится на metrika.yandex.ru за пару минут.
@@ -348,7 +497,7 @@
     });
   }
 
-  /* ---- 9. Год в подвале ---- */
+  /* ---- 10. Год в подвале ---- */
 
   var year = document.getElementById('year');
   if (year) {

@@ -182,6 +182,7 @@ svg { display: block; }
   letter-spacing: -0.01em;
 }
 .logo:hover { color: var(--text); }
+.logo__text { white-space: nowrap; }
 .logo__mark {
   display: grid;
   place-items: center;
@@ -191,6 +192,60 @@ svg { display: block; }
   background: var(--accent-btn);
   color: var(--accent-ink);
   font-size: 15px;
+}
+
+/* переключатели языка и валюты */
+
+.switch {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-left: auto;
+}
+
+.switch__lang {
+  padding: 7px 11px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  color: var(--text-muted);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: .04em;
+}
+.switch__lang:hover {
+  border-color: var(--accent-soft);
+  color: var(--text);
+}
+
+.switch__cur {
+  display: flex;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.switch__cur-btn {
+  padding: 7px 10px;
+  border: 0;
+  background: transparent;
+  color: var(--text-muted);
+  font-family: inherit;
+  font-size: 14px;
+  line-height: 1;
+  cursor: pointer;
+  transition: background .2s ease, color .2s ease;
+}
+.switch__cur-btn + .switch__cur-btn { border-left: 1px solid var(--line); }
+.switch__cur-btn:hover { color: var(--text); }
+.switch__cur-btn.is-active {
+  background: var(--accent-btn);
+  color: var(--accent-ink);
+}
+
+.calc__rate {
+  margin-top: 10px;
+  color: var(--text-muted);
+  font-size: 13px;
 }
 
 .nav { display: none; }
@@ -1854,6 +1909,7 @@ a.chip:hover {
   }
 
   .header__cta { display: inline-flex; }
+  .switch { margin-left: 0; }
   .mobile-cta { display: none; }
   .cards { grid-template-columns: repeat(2, 1fr); gap: 20px; }
   .projects { grid-template-columns: repeat(2, 1fr); gap: 20px; }
@@ -1874,6 +1930,7 @@ a.chip:hover {
 
 @media (min-width: 1000px) {
   :root { --pad: 40px; }
+  .nav { display: none; }
 
   .hero__inner {
     display: grid;
@@ -1889,8 +1946,10 @@ a.chip:hover {
   body { font-size: 18px; }
   .nav {
     display: flex;
-    gap: 20px;
+    gap: 16px;
+    font-size: 15px;
   }
+  .nav a { white-space: nowrap; }
   .steps { grid-template-columns: repeat(4, 1fr); }
   .projects { grid-template-columns: repeat(3, 1fr); }
   .reviews { grid-template-columns: repeat(3, 1fr); }
@@ -1910,8 +1969,12 @@ a.chip:hover {
   .cases { gap: 22px; }
 }
 
-@media (min-width: 1240px) {
-  .nav { gap: 30px; }
+@media (min-width: 1180px) {
+  .nav { display: flex; }
+}
+
+@media (min-width: 1320px) {
+  .nav { gap: 24px; }
 }
 
 /* Отдельные задержки, чтобы карточки появлялись каскадом */

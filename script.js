@@ -11,6 +11,28 @@
   var reduceMotion = window.matchMedia &&
     window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+  /* Английская версия лежит в en/ и собирается из русской скриптом build.py.
+     Тексты, которые рождаются в JS, переводятся здесь. */
+  var isEnglish = document.documentElement.lang === 'en';
+
+  var L = isEnglish ? {
+    copied: 'Copied',
+    again: '↻ Again',
+    want: 'I want one like this →',
+    wantText: 'Hi! Writing from your website. I want a bot like the demo:',
+    briefIntro: 'Hi! Writing from your website, I filled in the brief.',
+    brief: ['Business', 'What to simplify', 'What is needed', 'Currently using',
+            'Who will use it', 'Timeline', 'Budget', 'Also important']
+  } : {
+    copied: 'Скопировано',
+    again: '↻ Ещё раз',
+    want: 'Хочу такого же →',
+    wantText: 'Здравствуйте! Пишу с сайта. Хочу такого же бота:',
+    briefIntro: 'Здравствуйте! Пишу с сайта, заполнил бриф.',
+    brief: ['Бизнес', 'Что упростить', 'Что нужно', 'Сейчас пользуются',
+            'Кто пользуется', 'Сроки', 'Бюджет', 'Ещё важно']
+  };
+
   /* ---- 1. Появление секций ---- */
 
   var items = document.querySelectorAll('.reveal');
@@ -137,7 +159,48 @@
      СЦЕНАРИЙ МЕНЯЕТСЯ ЗДЕСЬ. Каждый шаг: текст бота и варианты ответа.
      {choice} в тексте подставляет то, что выбрал посетитель. */
 
-  var scenario = {
+  var scenarioEn = {
+    start: {
+      text: 'Hi! I am the salon bot. Shall I book you in or answer a question?',
+      choices: [
+        { label: 'Book me in', next: 'branch' },
+        { label: 'How much is it', next: 'price' }
+      ]
+    },
+    price: {
+      text: 'Manicure from ₽1,500, pedicure from ₽2,000, polish included. Shall I book you?',
+      choices: [
+        { label: 'Yes, book me', next: 'branch' },
+        { label: 'Thanks, later', next: 'bye' }
+      ]
+    },
+    branch: {
+      text: 'Which location works for you?',
+      choices: [
+        { label: 'Lenina street', next: 'time' },
+        { label: 'Mira avenue', next: 'time' }
+      ]
+    },
+    time: {
+      text: 'Tomorrow is open. Pick a time:',
+      choices: [
+        { label: '11:00', next: 'done' },
+        { label: '14:30', next: 'done' },
+        { label: '18:00', next: 'done' }
+      ]
+    },
+    done: {
+      text: 'Booked you for {choice} with Olga. I will remind you 3 hours before — the booking is already in the receptionist’s spreadsheet.',
+      ok: true,
+      end: true
+    },
+    bye: {
+      text: 'Have a good day! If you change your mind, I am here around the clock.',
+      end: true
+    }
+  };
+
+  var scenarioRu = {
     start: {
       text: 'Здравствуйте! Я бот студии. Записать вас или ответить на вопрос?',
       choices: [
@@ -177,6 +240,8 @@
       end: true
     }
   };
+
+  var scenario = isEnglish ? scenarioEn : scenarioRu;
 
   var log = document.querySelector('.chat__log');
 
@@ -238,7 +303,7 @@
         var again = document.createElement('button');
         again.type = 'button';
         again.className = 'chip';
-        again.textContent = '↻ Ещё раз';
+        again.textContent = L.again;
         again.addEventListener('click', function () {
           log.innerHTML = '';
           lastChoice = '';
@@ -247,9 +312,8 @@
 
         var order = document.createElement('a');
         order.className = 'chip chip--accent';
-        order.href = 'https://t.me/DinoDafor?text=' +
-          encodeURIComponent('Здравствуйте! Пишу с сайта. Хочу такого же бота:');
-        order.textContent = 'Хочу такого же →';
+        order.href = 'https://t.me/DinoDafor?text=' + encodeURIComponent(L.wantText);
+        order.textContent = L.want;
 
         li.appendChild(again);
         li.appendChild(order);
@@ -290,7 +354,98 @@
     }
   }
 
-  /* ---- 6. Калькулятор ----
+  /* ---- 6. Валюта ----
+     КУРС ЗАДАЁТСЯ ЗДЕСЬ И ОБНОВЛЯЕТСЯ РУКАМИ. Внешнее API не используется
+     намеренно: оно однажды молча отвалится, и сайт покажет ерунду.
+     RATES — сколько рублей в одной единице валюты. */
+
+  var RATES = { RUB: 1, USD: 95, EUR: 103 };
+  var RATE_DATE = '3 сентября 2026';
+  var CURRENCY_KEY = 'currency';
+  var currency = 'RUB';
+  try { currency = window.localStorage.getItem(CURRENCY_KEY) || 'RUB'; } catch (e) {}
+  if (!RATES[currency]) { currency = 'RUB'; }
+
+  var calcUpdate = null;   // калькулятор подставит сюда свою перерисовку
+
+  var spaced = function (value) {
+    return String(value).replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
+  };
+
+  // суммы до 10 000 округляем до сотен, иначе почасовая ставка «поедет»
+  var roundRub = function (value) {
+    return value >= 10000 ? Math.round(value / 1000) * 1000 : Math.round(value / 100) * 100;
+  };
+
+  // одна сумма в текущей валюте
+  var formatMoney = function (rub) {
+    if (currency === 'RUB') {
+      return spaced(roundRub(rub)) + ' \u20BD';
+    }
+    var value = Math.round(rub / RATES[currency] / 10) * 10;
+    return (currency === 'USD' ? '$' : '\u20AC') + spaced(value);
+  };
+
+  // диапазон: вторая сумма без знака валюты
+  var formatRange = function (min, max) {
+    if (currency === 'RUB') {
+      return spaced(roundRub(min)) + ' – ' + spaced(roundRub(max)) + ' \u20BD';
+    }
+    var a = Math.round(min / RATES[currency] / 10) * 10;
+    var b = Math.round(max / RATES[currency] / 10) * 10;
+    return (currency === 'USD' ? '$' : '\u20AC') + spaced(a) + '–' + spaced(b);
+  };
+
+  var applyCurrency = function () {
+    var nodes = document.querySelectorAll('.money');
+
+    Array.prototype.forEach.call(nodes, function (node) {
+      var min = parseInt(node.getAttribute('data-rub'), 10);
+      var max = parseInt(node.getAttribute('data-rub-max'), 10);
+      var prefix = node.getAttribute('data-prefix');
+      var text = max ? formatRange(min, max) : formatMoney(min);
+
+      if (prefix) { text = (isEnglish ? 'from' : prefix) + ' ' + text; }
+      node.textContent = text;
+    });
+
+    var buttons = document.querySelectorAll('.switch__cur-btn');
+    Array.prototype.forEach.call(buttons, function (button) {
+      var active = button.getAttribute('data-cur') === currency;
+      button.classList.toggle('is-active', active);
+      button.setAttribute('aria-pressed', active ? 'true' : 'false');
+    });
+
+    var notes = document.querySelectorAll('[data-rate-note]');
+    Array.prototype.forEach.call(notes, function (note) {
+      if (currency === 'RUB') {
+        note.textContent = isEnglish
+          ? 'Prices are fixed in roubles; other currencies are shown for reference.'
+          : 'Итоговая сумма фиксируется в рублях, другие валюты — для ориентира.';
+      } else {
+        note.textContent = (isEnglish ? 'Rate as of ' : 'Курс на ') + RATE_DATE +
+          ': 1 ' + currency + ' = ' + RATES[currency] + ' \u20BD. ' +
+          (isEnglish ? 'The contract amount is fixed in roubles.'
+                     : 'Сумма в договоре фиксируется в рублях.');
+      }
+    });
+
+    if (calcUpdate) { calcUpdate(); }
+  };
+
+  var currencyButtons = document.querySelectorAll('.switch__cur-btn');
+
+  Array.prototype.forEach.call(currencyButtons, function (button) {
+    button.addEventListener('click', function () {
+      currency = button.getAttribute('data-cur');
+      try { window.localStorage.setItem(CURRENCY_KEY, currency); } catch (e) {}
+      applyCurrency();
+    });
+  });
+
+  applyCurrency();
+
+  /* ---- 7. Калькулятор ----
      Все цены и сроки живут в data-атрибутах разметки,
      здесь только сложение и сборка сообщения для Telegram. */
 
@@ -305,14 +460,6 @@
     var options = Array.prototype.slice.call(calc.querySelectorAll('.calc__opt'));
 
     var num = function (el, name) { return parseInt(el.getAttribute(name), 10) || 0; };
-
-    var money = function (value) {
-      return Math.round(value / 1000) * 1000;
-    };
-
-    var format = function (value) {
-      return String(money(value)).replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
-    };
 
     var checkedType = function () {
       return calc.querySelector('input[name="calc-type"]:checked');
@@ -358,8 +505,9 @@
         daysMax = Math.max(3, Math.round(daysMax * 0.7));
       }
 
-      priceOut.textContent = format(priceMin) + ' — ' + format(priceMax) + ' \u20BD';
-      daysOut.textContent = daysMin + '–' + daysMax + ' рабочих дней';
+      priceOut.textContent = formatRange(priceMin, priceMax);
+      daysOut.textContent = daysMin + '–' + daysMax +
+        (isEnglish ? ' working days' : ' рабочих дней');
 
       summaryOut.innerHTML = '';
       picked.forEach(function (name) {
@@ -368,21 +516,26 @@
         summaryOut.appendChild(li);
       });
 
-      var message = 'Здравствуйте! Пишу с сайта. ' + type.value + '.';
-      if (picked.length) { message += ' Нужно: ' + picked.join(', ') + '.'; }
-      if (rush) { message += ' Хотелось бы срочно.'; }
-      message += ' Расчёт на сайте: ' + format(priceMin) + '–' + format(priceMax) +
-                 ' \u20BD, ' + daysMin + '–' + daysMax + ' дней. Задача:';
+      var message = (isEnglish ? 'Hi! Writing from your website. ' : 'Здравствуйте! Пишу с сайта. ') +
+                    type.value + '.';
+      if (picked.length) {
+        message += (isEnglish ? ' Needed: ' : ' Нужно: ') + picked.join(', ') + '.';
+      }
+      if (rush) { message += isEnglish ? ' Rather urgent.' : ' Хотелось бы срочно.'; }
+      message += (isEnglish ? ' Estimate on the site: ' : ' Расчёт на сайте: ') +
+                 formatRange(priceMin, priceMax) + ', ' + daysMin + '–' + daysMax +
+                 (isEnglish ? ' days. Task:' : ' дней. Задача:');
 
       sendLink.href = 'https://t.me/DinoDafor?text=' + encodeURIComponent(message);
     };
 
+    calcUpdate = update;
     calc.addEventListener('change', update);
     calc.addEventListener('submit', function (e) { e.preventDefault(); });
     update();
   }
 
-  /* ---- 7. Бриф: ответы собираются в сообщение для Telegram ----
+  /* ---- 8. Бриф: ответы собираются в сообщение для Telegram ----
      Ничего никуда не отправляется: скрипт только строит текст ссылки. */
 
   var brief = document.querySelector('.brief');
@@ -390,19 +543,11 @@
   if (brief) {
     var briefLink = document.getElementById('brief-send');
 
-    var questions = [
-      ['business', 'Бизнес'],
-      ['pain', 'Что упростить'],
-      ['kind', 'Что нужно'],
-      ['tools', 'Сейчас пользуются'],
-      ['users', 'Кто пользуется'],
-      ['deadline', 'Сроки'],
-      ['budget', 'Бюджет'],
-      ['extra', 'Ещё важно']
-    ];
+    var names = ['business', 'pain', 'kind', 'tools', 'users', 'deadline', 'budget', 'extra'];
+    var questions = names.map(function (name, i) { return [name, L.brief[i]]; });
 
     var collect = function () {
-      var lines = ['Здравствуйте! Пишу с сайта, заполнил бриф.', ''];
+      var lines = [L.briefIntro, ''];
 
       questions.forEach(function (pair) {
         var name = pair[0];
@@ -428,7 +573,7 @@
     collect();
   }
 
-  /* ---- 8. Кнопки «скопировать» у контактов ---- */
+  /* ---- 9. Кнопки «скопировать» у контактов ---- */
 
   var copyButtons = document.querySelectorAll('.copy');
 
@@ -442,7 +587,7 @@
 
       navigator.clipboard.writeText(value).then(function () {
         button.classList.add('is-done');
-        if (label) { label.textContent = 'Скопировано'; }
+        if (label) { label.textContent = L.copied; }
 
         setTimeout(function () {
           button.classList.remove('is-done');
@@ -452,7 +597,7 @@
     });
   });
 
-  /* ---- 9. Яндекс.Метрика ----
+  /* ---- 10. Яндекс.Метрика ----
      ВПИШИТЕ НОМЕР СЧЁТЧИКА в METRIKA_ID (только цифры, в кавычках).
      Пока строка пустая, никакая статистика не собирается и запросы не идут.
      Счётчик заводится на metrika.yandex.ru за пару минут.
@@ -497,7 +642,7 @@
     });
   }
 
-  /* ---- 10. Год в подвале ---- */
+  /* ---- 11. Год в подвале ---- */
 
   var year = document.getElementById('year');
   if (year) {

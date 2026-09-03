@@ -29,6 +29,9 @@
 
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
   <link rel="apple-touch-icon" href="apple-touch-icon.png">
+  <link rel="alternate" hreflang="ru" href="https://dinodafor.github.io/">
+  <link rel="alternate" hreflang="en" href="https://dinodafor.github.io/en/">
+  <link rel="alternate" hreflang="x-default" href="https://dinodafor.github.io/">
   <link rel="stylesheet" href="style.css">
 
   <!-- Структурированные данные для поисковиков (schema.org).
@@ -213,6 +216,14 @@
       <a href="#contacts">Контакты</a>
     </nav>
     <a class="btn btn--small btn--primary header__cta" href="https://t.me/DinoDafor?text=%D0%97%D0%B4%D1%80%D0%B0%D0%B2%D1%81%D1%82%D0%B2%D1%83%D0%B9%D1%82%D0%B5%21%20%D0%9F%D0%B8%D1%88%D1%83%20%D1%81%20%D1%81%D0%B0%D0%B9%D1%82%D0%B0.%20%D0%A5%D0%BE%D1%87%D1%83%20%D0%BE%D0%B1%D1%81%D1%83%D0%B4%D0%B8%D1%82%D1%8C%20%D0%BF%D1%80%D0%BE%D0%B5%D0%BA%D1%82%3A">Написать</a>
+    <div class="switch">
+      <a class="switch__lang" href="en/index.html" hreflang="en" lang="en">EN</a>
+      <div class="switch__cur" role="group" aria-label="Валюта">
+        <button type="button" class="switch__cur-btn" data-cur="RUB">₽</button>
+        <button type="button" class="switch__cur-btn" data-cur="USD">$</button>
+        <button type="button" class="switch__cur-btn" data-cur="EUR">€</button>
+      </div>
+    </div>
   </div>
 </header>
 
@@ -326,7 +337,7 @@
           </ul>
           <dl class="card__meta">
             <div><dt>Срок</dt><dd>5–10 дней</dd></div>
-            <div><dt>Цена</dt><dd class="price">от 45 000 ₽</dd></div>
+            <div><dt>Цена</dt><dd class="price"><span class="money" data-rub="45000" data-prefix="от">от 45 000 ₽</span></dd></div>
           </dl>
         </article>
 
@@ -342,7 +353,7 @@
           </ul>
           <dl class="card__meta">
             <div><dt>Срок</dt><dd>7–14 дней</dd></div>
-            <div><dt>Цена</dt><dd class="price">от 60 000 ₽</dd></div>
+            <div><dt>Цена</dt><dd class="price"><span class="money" data-rub="60000" data-prefix="от">от 60 000 ₽</span></dd></div>
           </dl>
         </article>
 
@@ -358,7 +369,7 @@
           </ul>
           <dl class="card__meta">
             <div><dt>Срок</dt><dd>3–14 дней</dd></div>
-            <div><dt>Цена</dt><dd class="price">от 30 000 ₽</dd></div>
+            <div><dt>Цена</dt><dd class="price"><span class="money" data-rub="30000" data-prefix="от">от 30 000 ₽</span></dd></div>
           </dl>
         </article>
 
@@ -374,7 +385,7 @@
           </ul>
           <dl class="card__meta">
             <div><dt>Срок</dt><dd>4–12 дней</dd></div>
-            <div><dt>Цена</dt><dd class="price">от 40 000 ₽</dd></div>
+            <div><dt>Цена</dt><dd class="price"><span class="money" data-rub="40000" data-prefix="от">от 40 000 ₽</span></dd></div>
           </dl>
         </article>
 
@@ -550,6 +561,7 @@
             Отправить расчёт в Telegram
           </a>
           <p class="calc__note">Расчёт подставится в сообщение — останется дописать пару слов о задаче.</p>
+          <p class="calc__rate" data-rate-note>Цены в рублях; в другой валюте — пересчёт по курсу для ориентира.</p>
         </aside>
       </form>
     </div>
@@ -604,7 +616,7 @@
       <div class="plans">
         <article class="plan reveal">
           <h3 class="plan__title">Без подписки</h3>
-          <p class="plan__price">от 3 500 ₽ <span>за час</span></p>
+          <p class="plan__price"><span class="money" data-rub="3500" data-prefix="от">от 3 500 ₽</span> <span>за час</span></p>
           <p class="plan__desc">Разовые доработки по мере надобности. Беру в работу в порядке очереди, обычно в течение недели.</p>
           <ul class="plan__list">
             <li>Оплата по факту, минимум 2 часа</li>
@@ -615,7 +627,7 @@
         <article class="plan plan--main reveal">
           <p class="plan__badge">Чаще всего берут</p>
           <h3 class="plan__title">Базовая</h3>
-          <p class="plan__price">от 12 000 ₽ <span>в месяц</span></p>
+          <p class="plan__price"><span class="money" data-rub="12000" data-prefix="от">от 12 000 ₽</span> <span>в месяц</span></p>
           <p class="plan__desc">Мелкие правки и присмотр за тем, чтобы всё работало. Подходит, если бот или интеграция уже в деле.</p>
           <ul class="plan__list">
             <li>До 4 часов работ в месяц</li>
@@ -626,7 +638,7 @@
 
         <article class="plan reveal">
           <h3 class="plan__title">Приоритетная</h3>
-          <p class="plan__price">от 30 000 ₽ <span>в месяц</span></p>
+          <p class="plan__price"><span class="money" data-rub="30000" data-prefix="от">от 30 000 ₽</span> <span>в месяц</span></p>
           <p class="plan__desc">Когда простой стоит денег: заявки идут через бота, а склад синхронизируется каждые пять минут.</p>
           <ul class="plan__list">
             <li>До 10 часов работ в месяц</li>
@@ -906,9 +918,9 @@
           <tbody>
             <tr>
               <th scope="row">Стоимость бота с интеграцией</th>
-              <td class="compare__me">60–150 тыс ₽</td>
-              <td>от 250 тыс ₽</td>
-              <td>от 150 тыс ₽ в месяц</td>
+              <td class="compare__me"><span class="money" data-rub="60000" data-rub-max="150000">60 000 – 150 000 ₽</span></td>
+              <td><span class="money" data-rub="250000" data-prefix="от">от 250 000 ₽</span></td>
+              <td><span class="money" data-rub="150000" data-prefix="от">от 150 000 ₽</span> в месяц</td>
             </tr>
             <tr>
               <th scope="row">Старт работ</th>

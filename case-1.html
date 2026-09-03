@@ -20,6 +20,9 @@
 
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
   <link rel="apple-touch-icon" href="apple-touch-icon.png">
+  <link rel="alternate" hreflang="ru" href="https://dinodafor.github.io/case-1.html">
+  <link rel="alternate" hreflang="en" href="https://dinodafor.github.io/en/case-1.html">
+  <link rel="alternate" hreflang="x-default" href="https://dinodafor.github.io/case-1.html">
   <link rel="stylesheet" href="style.css">
   <noscript>
     <style>
@@ -46,6 +49,14 @@
       <a href="index.html#contacts">Контакты</a>
     </nav>
     <a class="btn btn--small btn--primary header__cta" href="https://t.me/DinoDafor?text=%D0%97%D0%B4%D1%80%D0%B0%D0%B2%D1%81%D1%82%D0%B2%D1%83%D0%B9%D1%82%D0%B5%21%20%D0%9F%D0%B8%D1%88%D1%83%20%D1%81%20%D1%81%D0%B0%D0%B9%D1%82%D0%B0.%20%D0%A5%D0%BE%D1%87%D1%83%20%D0%BE%D0%B1%D1%81%D1%83%D0%B4%D0%B8%D1%82%D1%8C%20%D0%BF%D1%80%D0%BE%D0%B5%D0%BA%D1%82%3A">Написать</a>
+    <div class="switch">
+      <a class="switch__lang" href="en/case-1.html" hreflang="en" lang="en">EN</a>
+      <div class="switch__cur" role="group" aria-label="Валюта">
+        <button type="button" class="switch__cur-btn" data-cur="RUB">₽</button>
+        <button type="button" class="switch__cur-btn" data-cur="USD">$</button>
+        <button type="button" class="switch__cur-btn" data-cur="EUR">€</button>
+      </div>
+    </div>
   </div>
 </header>
 
@@ -59,7 +70,7 @@
       <dl class="case-meta reveal">
           <div><dt>Сфера</dt><dd>бьюти-услуги</dd></div>
           <div><dt>Срок</dt><dd>9 дней</dd></div>
-          <div><dt>Бюджет</dt><dd>95 000 ₽</dd></div>
+          <div><dt>Бюджет</dt><dd><span class="money" data-rub="95000">95 000 ₽</span></dd></div>
           <div><dt>Стек</dt><dd>Python, aiogram, PostgreSQL</dd></div>
       </dl>
 

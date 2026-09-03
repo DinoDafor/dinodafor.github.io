@@ -1,61 +1,161 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>https://dinodafor.github.io/</loc>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://dinodafor.github.io/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://dinodafor.github.io/en/"/>
+    <lastmod>2026-09-03</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://dinodafor.github.io/en/</loc>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://dinodafor.github.io/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://dinodafor.github.io/en/"/>
     <lastmod>2026-09-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
     <loc>https://dinodafor.github.io/brief.html</loc>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://dinodafor.github.io/brief.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://dinodafor.github.io/en/brief.html"/>
+    <lastmod>2026-09-03</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://dinodafor.github.io/en/brief.html</loc>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://dinodafor.github.io/brief.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://dinodafor.github.io/en/brief.html"/>
     <lastmod>2026-09-03</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://dinodafor.github.io/case-1.html</loc>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://dinodafor.github.io/case-1.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://dinodafor.github.io/en/case-1.html"/>
+    <lastmod>2026-09-03</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://dinodafor.github.io/en/case-1.html</loc>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://dinodafor.github.io/case-1.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://dinodafor.github.io/en/case-1.html"/>
     <lastmod>2026-09-03</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://dinodafor.github.io/case-2.html</loc>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://dinodafor.github.io/case-2.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://dinodafor.github.io/en/case-2.html"/>
+    <lastmod>2026-09-03</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://dinodafor.github.io/en/case-2.html</loc>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://dinodafor.github.io/case-2.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://dinodafor.github.io/en/case-2.html"/>
     <lastmod>2026-09-03</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://dinodafor.github.io/case-3.html</loc>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://dinodafor.github.io/case-3.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://dinodafor.github.io/en/case-3.html"/>
+    <lastmod>2026-09-03</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://dinodafor.github.io/en/case-3.html</loc>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://dinodafor.github.io/case-3.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://dinodafor.github.io/en/case-3.html"/>
     <lastmod>2026-09-03</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://dinodafor.github.io/blog/</loc>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://dinodafor.github.io/blog/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://dinodafor.github.io/en/blog/"/>
+    <lastmod>2026-09-03</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://dinodafor.github.io/en/blog/</loc>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://dinodafor.github.io/blog/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://dinodafor.github.io/en/blog/"/>
     <lastmod>2026-09-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://dinodafor.github.io/blog/skolko-stoit-bot.html</loc>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://dinodafor.github.io/blog/skolko-stoit-bot.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://dinodafor.github.io/en/blog/skolko-stoit-bot.html"/>
+    <lastmod>2026-09-03</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://dinodafor.github.io/en/blog/skolko-stoit-bot.html</loc>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://dinodafor.github.io/blog/skolko-stoit-bot.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://dinodafor.github.io/en/blog/skolko-stoit-bot.html"/>
     <lastmod>2026-09-03</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://dinodafor.github.io/blog/chto-avtomatizirovat-pervym.html</loc>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://dinodafor.github.io/blog/chto-avtomatizirovat-pervym.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://dinodafor.github.io/en/blog/chto-avtomatizirovat-pervym.html"/>
+    <lastmod>2026-09-03</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://dinodafor.github.io/en/blog/chto-avtomatizirovat-pervym.html</loc>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://dinodafor.github.io/blog/chto-avtomatizirovat-pervym.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://dinodafor.github.io/en/blog/chto-avtomatizirovat-pervym.html"/>
     <lastmod>2026-09-03</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://dinodafor.github.io/blog/max-ili-telegram.html</loc>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://dinodafor.github.io/blog/max-ili-telegram.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://dinodafor.github.io/en/blog/max-ili-telegram.html"/>
+    <lastmod>2026-09-03</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://dinodafor.github.io/en/blog/max-ili-telegram.html</loc>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://dinodafor.github.io/blog/max-ili-telegram.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://dinodafor.github.io/en/blog/max-ili-telegram.html"/>
     <lastmod>2026-09-03</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://dinodafor.github.io/privacy.html</loc>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://dinodafor.github.io/privacy.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://dinodafor.github.io/en/privacy.html"/>
+    <lastmod>2026-09-03</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
+  </url>
+  <url>
+    <loc>https://dinodafor.github.io/en/privacy.html</loc>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://dinodafor.github.io/privacy.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://dinodafor.github.io/en/privacy.html"/>
     <lastmod>2026-09-03</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>

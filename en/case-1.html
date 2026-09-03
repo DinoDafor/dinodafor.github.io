@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Client booking through a Telegram bot — case study by Mikhail Mitin</title>
+  <meta name="description" content="How a receptionist stopped booking clients in chat and got two hours back every evening.">
+  <meta name="theme-color" content="#0d0d10">
+  <link rel="canonical" href="https://dinodafor.github.io/en/case-1.html">
+
+  <meta property="og:type" content="article">
+  <meta property="og:locale" content="en_US">
+  <meta property="og:site_name" content="Mikhail Mitin">
+  <meta property="og:title" content="Client booking through a Telegram bot — case study by Mikhail Mitin">
+  <meta property="og:description" content="How a receptionist stopped booking clients in chat and got two hours back every evening.">
+  <meta property="og:url" content="https://dinodafor.github.io/en/case-1.html">
+  <meta property="og:image" content="https://dinodafor.github.io/og.jpg">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <link rel="icon" href="../favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="../apple-touch-icon.png">
+  <link rel="alternate" hreflang="ru" href="https://dinodafor.github.io/case-1.html">
+  <link rel="alternate" hreflang="en" href="https://dinodafor.github.io/en/case-1.html">
+  <link rel="alternate" hreflang="x-default" href="https://dinodafor.github.io/case-1.html">
+  <link rel="stylesheet" href="../style.css">
+  <noscript>
+    <style>
+      .reveal {{ opacity: 1; transform: none; }}
+      .mobile-cta {{ transform: none; }}
+    </style>
+  </noscript>
+</head>
+<body>
+
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="site-header">
+  <div class="container header__inner">
+    <a class="logo" href="index.html">
+      <span class="logo__mark" aria-hidden="true">M</span>
+      <span class="logo__text">Mikhail Mitin</span>
+    </a>
+    <nav class="nav" aria-label="Main navigation">
+      <a href="index.html#services">Services</a>
+      <a href="index.html#calc">Estimate</a>
+      <a href="index.html#cases">Case studies</a>
+      <a href="blog/index.html">Notes</a>
+      <a href="index.html#contacts">Contact</a>
+    </nav>
+    <a class="btn btn--small btn--primary header__cta" href="https://t.me/DinoDafor?text=%D0%97%D0%B4%D1%80%D0%B0%D0%B2%D1%81%D1%82%D0%B2%D1%83%D0%B9%D1%82%D0%B5%21%20%D0%9F%D0%B8%D1%88%D1%83%20%D1%81%20%D1%81%D0%B0%D0%B9%D1%82%D0%B0.%20%D0%A5%D0%BE%D1%87%D1%83%20%D0%BE%D0%B1%D1%81%D1%83%D0%B4%D0%B8%D1%82%D1%8C%20%D0%BF%D1%80%D0%BE%D0%B5%D0%BA%D1%82%3A">Message me</a>
+    <div class="switch">
+      <a class="switch__lang" href="../case-1.html" hreflang="ru" lang="ru">RU</a>
+      <div class="switch__cur" role="group" aria-label="Currency">
+        <button type="button" class="switch__cur-btn" data-cur="RUB">₽</button>
+        <button type="button" class="switch__cur-btn" data-cur="USD">$</button>
+        <button type="button" class="switch__cur-btn" data-cur="EUR">€</button>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main id="main">
+  <section class="section section--legal" aria-labelledby="case-title">
+    <div class="container">
+      <p class="case__tag reveal">Nail salon, 3 locations</p>
+      <h1 class="section__title reveal" id="case-title">Client booking through a Telegram bot</h1>
+      <p class="section__lead reveal">How a receptionist stopped booking clients in chat and got two hours back every evening.</p>
+
+      <dl class="case-meta reveal">
+          <div><dt>Industry</dt><dd>beauty services</dd></div>
+          <div><dt>Timeline</dt><dd>9 days</dd></div>
+          <div><dt>Budget</dt><dd><span class="money" data-rub="95000">95 000 ₽</span></dd></div>
+          <div><dt>Stack</dt><dd>Python, aiogram, PostgreSQL</dd></div>
+      </dl>
+
+      <!-- ЗАМЕНИТЬ: скриншот проекта, 800×500 -->
+      <img class="case-shot reveal" src="../images/project-1.svg" width="800" height="500" loading="lazy" alt="Screenshot placeholder: client booking through a Telegram bot">
+
+      <div class="case-body">
+        <h2 class="reveal">The problem</h2>
+        <p class="reveal">Bookings came in through VK chat, Telegram and phone calls, then were copied into a shared spreadsheet by hand. Once a week there was a double booking: two specialists for the same slot, an unhappy client and apologies. Reconciling everything took the receptionist an hour and a half to two hours every evening.</p>
+
+        <h2 class="reveal">What I did</h2>
+        <ol class="case-steps reveal">
+          <li>Mapped the process: listed every place a booking can appear and found that 70% of enquiries were four standard questions.</li>
+          <li>Built the bot: choose a location, a specialist and an open slot; reschedule or cancel in two taps.</li>
+          <li>Connected the bot to a shared calendar so booked slots disappear instantly across all locations.</li>
+          <li>Added a reminder three hours before the visit and a “can’t make it” button that frees the slot automatically.</li>
+          <li>Built an admin area: the day’s bookings, export to a spreadsheet, manual blocking of time slots.</li>
+        </ol>
+
+        <h2 class="reveal">How it works</h2>
+        <p class="reveal">The bot runs on the client’s server, data lives in PostgreSQL, and the schedule syncs with Google Calendar every minute. If a sync fails, the bot posts to an internal chat instead of staying silent.</p>
+
+        <h2 class="reveal">The result</h2>
+        <ul class="case__stats reveal">
+          <li><strong>−70%</strong><span>less manual work for the receptionist</span></li>
+          <li><strong>−35%</strong><span>fewer no-shows after reminders</span></li>
+          <li><strong>9 days</strong><span>from start to launch</span></li>
+        </ul>
+
+        <figure class="review review--page reveal">
+          <blockquote class="review__quote"><p>I expected a long rollout, but the bot was running in a week and a half. The evening reconciliation simply vanished from our day.</p></blockquote>
+          <figcaption class="review__author">
+            <span class="review__avatar" aria-hidden="true">AK</span>
+            <span class="review__who"><b>Anna Korolyova, owner of a salon chain</b></span>
+          </figcaption>
+        </figure>
+      </div>
+
+      <p class="legal__back reveal"><a href="index.html#cases">← All case studies</a></p>
+    </div>
+  </section>
+
+  <section class="section section--tight">
+    <div class="container">
+      <div class="page-cta reveal">
+        <h2>Need something similar?</h2>
+        <p>Tell me what you need and I’ll reply with a timeline and a price range. The consultation is free.</p>
+        <a class="btn btn--primary btn--big" href="https://t.me/DinoDafor?text=%D0%97%D0%B4%D1%80%D0%B0%D0%B2%D1%81%D1%82%D0%B2%D1%83%D0%B9%D1%82%D0%B5%21%20%D0%9F%D0%B8%D1%88%D1%83%20%D1%81%20%D1%81%D0%B0%D0%B9%D1%82%D0%B0.%20%D0%A5%D0%BE%D1%87%D1%83%20%D0%BE%D0%B1%D1%81%D1%83%D0%B4%D0%B8%D1%82%D1%8C%20%D0%BF%D1%80%D0%BE%D0%B5%D0%BA%D1%82%3A"><svg class="icon" viewbox="0 0 24 24" aria-hidden="true"><path d="M21.9 4.3 18.7 20c-.2 1-.9 1.3-1.7.8l-4.7-3.5-2.3 2.2c-.3.3-.5.5-1 .5l.3-4.8L18 6.6c.4-.3-.1-.5-.6-.2L7.4 12.7l-4.7-1.5c-1-.3-1-1 .2-1.5l18-6.9c.9-.3 1.6.2 1.3 1.5Z"></svg> Message me on Telegram</a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="container footer__inner">
+    <p>© <span id="year">2026</span> Mikhail Mitin · self-employed</p>
+    <p><a href="privacy.html">Privacy policy</a> · <a href="index.html">Home</a></p>
+  </div>
+</footer>
+
+<div class="cookie" hidden>
+  <div class="cookie__inner">
+    <p class="cookie__text">
+      This site uses analytics cookies to see which sections people read. By continuing you agree to that — details in the
+      <a href="privacy.html">privacy policy</a>.
+    </p>
+    <button class="btn btn--small btn--primary cookie__ok" type="button">Got it</button>
+  </div>
+</div>
+
+<script src="../script.js" defer></script>
+</body>
+</html>

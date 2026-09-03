@@ -61,6 +61,8 @@
     <style>
       .reveal { opacity: 1; transform: none; }
       .mobile-cta { transform: none; }
+      .chat .msg { display: block; opacity: 1; transform: none; }
+      .chat .msg--chips { display: flex; }
     </style>
   </noscript>
 </head>
@@ -91,7 +93,8 @@
 
   <!-- ==================== 1. ПЕРВЫЙ ЭКРАН ==================== -->
   <section class="hero" aria-labelledby="hero-title">
-    <div class="container">
+    <div class="container hero__inner">
+      <div class="hero__text">
       <p class="hero__badge reveal">
         <span class="dot" aria-hidden="true"></span>
         Свободен для проектов с октября
@@ -116,6 +119,40 @@
         <li><strong>40+</strong> запущенных проектов</li>
         <li><strong>Договор</strong> и фиксированная смета</li>
       </ul>
+      </div>
+
+      <!-- Демонстрация услуги: диалог с ботом записи.
+           Реплики лежат в разметке и появляются по очереди из script.js.
+           Чтобы поменять сценарий — правьте <li> внутри .chat__log,
+           класс msg--in это клиент, msg--out это бот. -->
+      <figure class="chat reveal">
+        <figcaption class="chat__caption">Пример: бот записи в студию</figcaption>
+        <div class="chat__head">
+          <span class="chat__avatar" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"
+                 stroke-linecap="round" stroke-linejoin="round">
+              <rect x="4" y="7" width="16" height="12" rx="3"/>
+              <path d="M12 7V4M9 13h.01M15 13h.01M9.5 16h5"/>
+            </svg>
+          </span>
+          <span class="chat__who">
+            <b>Бот студии</b>
+            <span class="chat__status">отвечает сразу</span>
+          </span>
+        </div>
+        <ol class="chat__log">
+          <li class="msg msg--in">Здравствуйте! Хочу записаться на маникюр</li>
+          <li class="msg msg--out">Привет! В какой филиал удобно?</li>
+          <li class="msg msg--out msg--chips">
+            <span class="chip">На Ленина</span><span class="chip">На Мира</span>
+          </li>
+          <li class="msg msg--in">На Ленина</li>
+          <li class="msg msg--out">Завтра свободно: 11:00, 14:30, 18:00</li>
+          <li class="msg msg--in">14:30</li>
+          <li class="msg msg--out msg--ok">Записала вас на 14:30, мастер Ольга. Напомню за 3 часа</li>
+        </ol>
+        <p class="chat__note">Так это выглядит для клиента. Заявка сразу уходит в таблицу и в CRM.</p>
+      </figure>
     </div>
   </section>
 

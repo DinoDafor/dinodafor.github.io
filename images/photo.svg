@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 800" width="640" height="800" role="img" aria-label="Заглушка фотографии">
+  <rect width="640" height="800" fill="#16161d"/>
+  <rect x="1" y="1" width="638" height="798" fill="none" stroke="#26262f" stroke-width="2"/>
+  <circle cx="320" cy="330" r="78" fill="none" stroke="#7c5cff" stroke-width="3" opacity=".5"/>
+  <path d="M196 520c0-68 55-124 124-124s124 56 124 124" fill="none" stroke="#7c5cff" stroke-width="3" opacity=".5" stroke-linecap="round"/>
+  <text x="320" y="610" fill="#9a9aa8" font-family="system-ui, -apple-system, sans-serif" font-size="26" text-anchor="middle">Ваше фото</text>
+  <text x="320" y="645" fill="#5c5c6b" font-family="system-ui, -apple-system, sans-serif" font-size="18" text-anchor="middle">заменить, пропорция 4:5</text>
+</svg>

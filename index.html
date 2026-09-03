@@ -42,8 +42,8 @@
       <a href="#services">Услуги</a>
       <a href="#cases">Кейсы</a>
       <a href="#projects">Проекты</a>
-      <a href="#process">Как работаю</a>
-      <a href="#about">Обо мне</a>
+      <a href="#reviews">Отзывы</a>
+      <a href="#faq">Вопросы</a>
       <a href="#contacts">Контакты</a>
     </nav>
     <a class="btn btn--small btn--primary header__cta" href="https://t.me/DinoDafor">Написать</a>
@@ -423,7 +423,12 @@
         </ul>
       </div>
       <div class="about__side reveal">
-        <h3 class="about__side-title">Технологии</h3>
+        <!-- ЗАМЕНИТЬ: своё фото. Положите файл в images/, пропорция 4:5
+             (например 640×800), формат jpg/webp. Обязательно перепишите alt. -->
+        <img class="about__photo" src="images/photo.svg" width="640" height="800" loading="lazy"
+             alt="Заглушка вместо фотографии Михаила Митина">
+        <div class="about__tech">
+          <h3 class="about__side-title">Технологии</h3>
         <ul class="tags">
           <li>JavaScript</li>
           <li>TypeScript</li>
@@ -442,12 +447,185 @@
           <li>amoCRM · Bitrix24</li>
           <li>n8n</li>
           <li>Git</li>
-        </ul>
+          </ul>
+        </div>
       </div>
     </div>
   </section>
 
-  <!-- ==================== 7. КОНТАКТЫ ==================== -->
+  <!-- ==================== 7. ОТЗЫВЫ ====================
+    ТЕКСТОВЫЙ ОТЗЫВ: текст в <blockquote>, дальше имя, должность и компания.
+    В .review__avatar — инициалы человека (двумя буквами) либо замените
+    <span> на <img> со своей картинкой и alt.
+
+    ГОЛОСОВОЙ ОТЗЫВ: перешлите себе голосовое из Telegram, сохраните файл
+    в папку audio/ и укажите его в src (формат ogg/opus, mp3 или m4a).
+    В .review__note впишите длительность и о чём отзыв.
+    Сейчас в audio/ лежат беззвучные файлы-заглушки на 3 секунды.
+    Если голосовых нет — удалите весь блок от .reviews__subtitle
+    до закрывающего </div> секции голосовых.
+  -->
+  <section class="section" id="reviews" aria-labelledby="reviews-title">
+    <div class="container">
+      <p class="section__eyebrow reveal">Отзывы</p>
+      <h2 class="section__title reveal" id="reviews-title">Что говорят клиенты</h2>
+      <p class="section__lead reveal">
+        Короткие отзывы тех, с кем я работал. Контакты для рекомендаций дам по запросу.
+      </p>
+
+      <div class="reviews">
+
+        <figure class="review reveal">
+          <blockquote class="review__quote">
+            <p>Ожидала долгого внедрения, а бот заработал через полторы недели. Администратор перестал вести запись в переписке, и вечерняя сверка просто исчезла из рабочего дня.</p>
+          </blockquote>
+          <figcaption class="review__author">
+            <span class="review__avatar" aria-hidden="true">АК</span>
+            <span class="review__who">
+              <b>Анна Королёва</b>
+              <span class="review__role">владелица сети студий, Москва</span>
+            </span>
+          </figcaption>
+        </figure>
+
+        <figure class="review reveal">
+          <blockquote class="review__quote">
+            <p>Главное — объяснял решения человеческим языком и не тянул с ответами. Смета в итоге совпала с названной на старте, без внезапных доработок за отдельные деньги.</p>
+          </blockquote>
+          <figcaption class="review__author">
+            <span class="review__avatar" aria-hidden="true">ДС</span>
+            <span class="review__who">
+              <b>Дмитрий Соколов</b>
+              <span class="review__role">руководитель отдела продаж</span>
+            </span>
+          </figcaption>
+        </figure>
+
+        <figure class="review reveal">
+          <blockquote class="review__quote">
+            <p>Интеграцию со складом до этого пробовали делать дважды и оба раза бросали. Здесь получили рабочую синхронизацию и понятную инструкцию, разобрался даже наш бухгалтер.</p>
+          </blockquote>
+          <figcaption class="review__author">
+            <span class="review__avatar" aria-hidden="true">МТ</span>
+            <span class="review__who">
+              <b>Марина Т.</b>
+              <span class="review__role">оптовая торговля, Казань</span>
+            </span>
+          </figcaption>
+        </figure>
+
+      </div>
+
+      <h3 class="reviews__subtitle reveal">Голосовые отзывы</h3>
+      <p class="reviews__hint reveal">
+        Иногда клиенту проще наговорить пару минут, чем писать текст. Нажмите на плей.
+      </p>
+
+      <div class="reviews reviews--voice">
+
+        <figure class="review review--voice reveal">
+          <figcaption class="review__author">
+            <span class="review__avatar" aria-hidden="true">ИВ</span>
+            <span class="review__who">
+              <b>Игорь В.</b>
+              <span class="review__role">сервисный центр</span>
+            </span>
+          </figcaption>
+          <audio class="review__audio" controls preload="none" src="audio/review-1.ogg">
+            Ваш браузер не умеет проигрывать аудио.
+            <a href="audio/review-1.ogg">Скачать запись</a>.
+          </audio>
+          <p class="review__note">0:00 · заглушка, замените на свой файл</p>
+        </figure>
+
+        <figure class="review review--voice reveal">
+          <figcaption class="review__author">
+            <span class="review__avatar" aria-hidden="true">ЕЛ</span>
+            <span class="review__who">
+              <b>Елена Л.</b>
+              <span class="review__role">интернет-магазин</span>
+            </span>
+          </figcaption>
+          <audio class="review__audio" controls preload="none" src="audio/review-2.ogg">
+            Ваш браузер не умеет проигрывать аудио.
+            <a href="audio/review-2.ogg">Скачать запись</a>.
+          </audio>
+          <p class="review__note">0:00 · заглушка, замените на свой файл</p>
+        </figure>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== 8. ВОПРОСЫ И ОТВЕТЫ ====================
+    Блок работает на теге <details> — без всякого JS.
+    Новый вопрос: скопируйте <details class="faq__item reveal"> целиком.
+    Ответы проверьте под себя: там условия оплаты, гарантий и поддержки.
+  -->
+  <section class="section" id="faq" aria-labelledby="faq-title">
+    <div class="container">
+      <p class="section__eyebrow reveal">Вопросы</p>
+      <h2 class="section__title reveal" id="faq-title">Что обычно спрашивают до старта</h2>
+      <p class="section__lead reveal">
+        Если вашего вопроса здесь нет — напишите, отвечу без общих слов.
+      </p>
+
+      <div class="faq">
+
+        <details class="faq__item reveal">
+          <summary>Как проходит оплата?</summary>
+          <div class="faq__answer">
+            <p>Пополам: 50% предоплаты перед стартом и остаток при сдаче, после того как вы всё проверили. На больших проектах делим на этапы, чтобы вы платили за уже сделанное. Я самозанятый, чек присылаю сразу после платежа.</p>
+          </div>
+        </details>
+
+        <details class="faq__item reveal">
+          <summary>Работаете по договору?</summary>
+          <div class="faq__answer">
+            <p>Да, договор подряда с приложением, в котором прописан объём работ, сроки и стоимость. Работаю и с физлицами, и с компаниями. Если у вас свой шаблон договора — рассмотрю его.</p>
+          </div>
+        </details>
+
+        <details class="faq__item reveal">
+          <summary>Может ли смета вырасти в процессе?</summary>
+          <div class="faq__answer">
+            <p>Названная сумма не меняется: всё, что попало в согласованный объём работ, входит в цену, даже если займёт больше времени, чем я рассчитывал. Отдельно оплачиваются только новые задачи, которых в списке не было, — и всегда с вашего письменного согласия.</p>
+          </div>
+        </details>
+
+        <details class="faq__item reveal">
+          <summary>Кому принадлежит код и доступы?</summary>
+          <div class="faq__answer">
+            <p>Вам. Всё разворачивается на ваших аккаунтах и серверах, исходники передаю в ваш репозиторий, токены и пароли — вам в руки. Вы не привязаны ко мне: другой разработчик сможет продолжить работу.</p>
+          </div>
+        </details>
+
+        <details class="faq__item reveal">
+          <summary>Что если результат не понравится?</summary>
+          <div class="faq__answer">
+            <p>До этого обычно не доходит: я показываю промежуточный результат каждые 2–3 дня, и вы правите курс по ходу, а не в день сдачи. Если после первого этапа станет ясно, что мы не сработались, — расходимся, я передаю сделанное и возвращаю неотработанную часть предоплаты.</p>
+          </div>
+        </details>
+
+        <details class="faq__item reveal">
+          <summary>Что происходит после сдачи проекта?</summary>
+          <div class="faq__answer">
+            <p>14 дней бесплатно правлю всё, что работает не так, как договаривались. Дальше — по вашему желанию: разовые доработки по часам или ежемесячная поддержка с приоритетным ответом. Бросать проект после оплаты мне невыгодно: клиенты возвращаются и рекомендуют.</p>
+          </div>
+        </details>
+
+        <details class="faq__item reveal">
+          <summary>Сколько проектов ведёте одновременно?</summary>
+          <div class="faq__answer">
+            <p>Два-три, не больше. Поэтому иногда прошу подождать неделю до старта — зато уже начатый проект не встаёт из-за того, что я занят у другого клиента.</p>
+          </div>
+        </details>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== 9. КОНТАКТЫ ==================== -->
   <section class="section section--contacts" id="contacts" aria-labelledby="contacts-title">
     <div class="container">
       <div class="contacts reveal">

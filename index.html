@@ -41,6 +41,7 @@
     <nav class="nav" aria-label="Основная навигация">
       <a href="#services">Услуги</a>
       <a href="#cases">Кейсы</a>
+      <a href="#projects">Проекты</a>
       <a href="#process">Как работаю</a>
       <a href="#about">Обо мне</a>
       <a href="#contacts">Контакты</a>
@@ -265,7 +266,112 @@
     </div>
   </section>
 
-  <!-- ==================== 4. КАК Я РАБОТАЮ ==================== -->
+  <!-- ==================== 4. ПРОЕКТЫ ====================
+    КАК ЗАМЕНЯТЬ ПРОЕКТЫ:
+    1. Скриншот: положите свой файл в папку images/ и укажите его в src.
+       Размер 800×500 (или любой в пропорции 16:10), формат jpg / png / webp.
+       Обязательно перепишите alt — он описывает, что видно на картинке.
+    2. .project__title  — название проекта
+       .project__desc   — 1–2 строки: что это и какую задачу решает
+       .project__tags   — стек
+       .project__links  — ссылки. Если у проекта есть живая версия или
+       исходники, замените ссылку на неё; если нет — оставьте «Обсудить похожий».
+    Карточка самодостаточна: копируйте <article class="project"> целиком.
+  -->
+  <section class="section" id="projects" aria-labelledby="projects-title">
+    <div class="container">
+      <p class="section__eyebrow reveal">Проекты</p>
+      <h2 class="section__title reveal" id="projects-title">Что я уже сделал</h2>
+      <p class="section__lead reveal">
+        Небольшая витрина работ: бот, интеграция или сайт — и что конкретно он делает.
+        Подробности по любому проекту расскажу в переписке.
+      </p>
+
+      <div class="projects">
+
+        <article class="project reveal">
+          <img class="project__shot" src="images/project-1.svg" width="800" height="500" loading="lazy"
+               alt="Заглушка скриншота проекта: бот записи клиентов">
+          <div class="project__body">
+            <h3 class="project__title">Бот записи для сети студий</h3>
+            <p class="project__desc">Клиент выбирает филиал, мастера и свободное время прямо в чате, бот напоминает о визите и переносит запись.</p>
+            <ul class="project__tags">
+              <li>Python</li><li>aiogram</li><li>PostgreSQL</li>
+            </ul>
+            <p class="project__links"><a href="#contacts">Обсудить похожий →</a></p>
+          </div>
+        </article>
+
+        <article class="project reveal">
+          <img class="project__shot" src="images/project-2.svg" width="800" height="500" loading="lazy"
+               alt="Заглушка скриншота проекта: синхронизация склада с маркетплейсом">
+          <div class="project__body">
+            <h3 class="project__title">Синхронизация склада с маркетплейсом</h3>
+            <p class="project__desc">Остатки и цены уезжают из учётной системы на площадку каждые пять минут, ошибки повторяются и падают в Telegram команде.</p>
+            <ul class="project__tags">
+              <li>Node.js</li><li>REST API</li><li>Docker</li>
+            </ul>
+            <p class="project__links"><a href="#contacts">Обсудить похожий →</a></p>
+          </div>
+        </article>
+
+        <article class="project reveal">
+          <img class="project__shot" src="images/project-3.svg" width="800" height="500" loading="lazy"
+               alt="Заглушка скриншота проекта: лендинг с калькулятором стоимости">
+          <div class="project__body">
+            <h3 class="project__title">Лендинг с калькулятором стоимости</h3>
+            <p class="project__desc">Посетитель считает цену дома по параметрам и оставляет заявку, которая сразу создаёт сделку в CRM с его ответами.</p>
+            <ul class="project__tags">
+              <li>HTML</li><li>CSS</li><li>ванильный JS</li><li>amoCRM</li>
+            </ul>
+            <p class="project__links"><a href="#contacts">Обсудить похожий →</a></p>
+          </div>
+        </article>
+
+        <article class="project reveal">
+          <img class="project__shot" src="images/project-4.svg" width="800" height="500" loading="lazy"
+               alt="Заглушка скриншота проекта: бот поддержки в мессенджере MAX">
+          <div class="project__body">
+            <h3 class="project__title">Бот поддержки в MAX</h3>
+            <p class="project__desc">Отвечает на частые вопросы сервисного центра, принимает заявки на ремонт и показывает статус по номеру заказа.</p>
+            <ul class="project__tags">
+              <li>Python</li><li>MAX Bot API</li><li>SQLite</li>
+            </ul>
+            <p class="project__links"><a href="#contacts">Обсудить похожий →</a></p>
+          </div>
+        </article>
+
+        <article class="project reveal">
+          <img class="project__shot" src="images/project-5.svg" width="800" height="500" loading="lazy"
+               alt="Заглушка скриншота проекта: автоматические отчёты из CRM">
+          <div class="project__body">
+            <h3 class="project__title">Отчёты из CRM по расписанию</h3>
+            <p class="project__desc">Каждое утро руководитель получает в Telegram сводку по сделкам, звонкам и просроченным задачам вместо ручной выгрузки.</p>
+            <ul class="project__tags">
+              <li>Python</li><li>amoCRM API</li><li>cron</li>
+            </ul>
+            <p class="project__links"><a href="#contacts">Обсудить похожий →</a></p>
+          </div>
+        </article>
+
+        <article class="project reveal">
+          <img class="project__shot" src="images/project-6.svg" width="800" height="500" loading="lazy"
+               alt="Заглушка скриншота проекта: каталог товаров с выгрузкой в 1С">
+          <div class="project__body">
+            <h3 class="project__title">Каталог с выгрузкой в 1С</h3>
+            <p class="project__desc">Витрина с фильтрами и корзиной: заказ уходит в 1С, менеджер видит его в привычном интерфейсе без копирования вручную.</p>
+            <ul class="project__tags">
+              <li>TypeScript</li><li>Node.js</li><li>1С: обмен</li>
+            </ul>
+            <p class="project__links"><a href="#contacts">Обсудить похожий →</a></p>
+          </div>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== 5. КАК Я РАБОТАЮ ==================== -->
   <section class="section" id="process" aria-labelledby="process-title">
     <div class="container">
       <p class="section__eyebrow reveal">Процесс</p>
@@ -297,7 +403,7 @@
     </div>
   </section>
 
-  <!-- ==================== 5. ОБО МНЕ ==================== -->
+  <!-- ==================== 6. ОБО МНЕ ==================== -->
   <section class="section" id="about" aria-labelledby="about-title">
     <div class="container about">
       <div class="about__text">
@@ -341,7 +447,7 @@
     </div>
   </section>
 
-  <!-- ==================== 6. КОНТАКТЫ ==================== -->
+  <!-- ==================== 7. КОНТАКТЫ ==================== -->
   <section class="section section--contacts" id="contacts" aria-labelledby="contacts-title">
     <div class="container">
       <div class="contacts reveal">

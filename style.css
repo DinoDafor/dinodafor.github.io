@@ -453,6 +453,76 @@ svg { display: block; }
   font-size: 14px;
 }
 
+/* ---------- проекты ---------- */
+
+.projects {
+  display: grid;
+  gap: 18px;
+}
+
+.project {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background: var(--bg-card);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  transition: border-color .25s ease, transform .25s ease;
+}
+.project:hover {
+  border-color: #3a3350;
+  transform: translateY(-3px);
+}
+
+.project__shot {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 10;
+  object-fit: cover;
+  background: var(--bg-soft);
+  border-bottom: 1px solid var(--line);
+}
+
+.project__body {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  padding: 22px 20px;
+}
+
+.project__title {
+  font-size: 19px;
+  margin-bottom: 8px;
+}
+
+.project__desc {
+  color: var(--text-muted);
+  font-size: 15.5px;
+  margin-bottom: 16px;
+}
+
+.project__tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 16px;
+}
+.project__tags li {
+  padding: 5px 10px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--bg-soft);
+  color: var(--text-muted);
+  font-size: 13px;
+}
+
+.project__links {
+  margin-top: auto;
+  font-size: 15px;
+  font-weight: 600;
+}
+
 /* ---------- как я работаю ---------- */
 
 .steps {
@@ -635,8 +705,10 @@ svg { display: block; }
 
   .header__cta { display: inline-flex; }
   .cards { grid-template-columns: repeat(2, 1fr); gap: 20px; }
+  .projects { grid-template-columns: repeat(2, 1fr); gap: 20px; }
   .steps { grid-template-columns: repeat(2, 1fr); gap: 20px; }
   .card, .case, .step, .about__side { padding: 32px 30px; }
+  .project__body { padding: 24px 24px; }
   .case__body { grid-template-columns: repeat(3, 1fr); gap: 28px; }
   .contacts__list { grid-template-columns: repeat(2, 1fr); }
 }
@@ -650,6 +722,7 @@ svg { display: block; }
     gap: 28px;
   }
   .steps { grid-template-columns: repeat(4, 1fr); }
+  .projects { grid-template-columns: repeat(3, 1fr); }
   .about {
     grid-template-columns: minmax(0, 1.55fr) minmax(280px, 1fr);
     gap: 56px;
@@ -666,6 +739,8 @@ svg { display: block; }
   .steps .step:nth-child(3) { transition-delay: .16s; }
   .cards .card:nth-child(4),
   .steps .step:nth-child(4) { transition-delay: .24s; }
+  .projects .project:nth-child(3n+2) { transition-delay: .08s; }
+  .projects .project:nth-child(3n) { transition-delay: .16s; }
 }
 
 /* ---------- уважение к системным настройкам ---------- */

@@ -11,8 +11,10 @@
   --line:          #26262f;
   --text:          #e6e6ec;
   --text-muted:    #9a9aa8;
-  --accent:        #7c5cff;   /* акцент: кнопки, ссылки, цифры */
-  --accent-soft:   #a793ff;   /* акцент для текста на тёмном */
+  --accent:        #7c5cff;   /* акцент: заливки, декоративные элементы */
+  --accent-btn:    #6b48ff;   /* фон кнопок: тёмнее, чтобы белый текст проходил WCAG AA */
+  --accent-btn-h:  #5c33f0;   /* фон кнопки при наведении */
+  --accent-soft:   #a793ff;   /* акцент для текста и ссылок на тёмном */
   --accent-ink:    #ffffff;   /* текст на акцентной кнопке */
 
   --radius:        16px;
@@ -86,7 +88,7 @@ svg { display: block; }
   left: -9999px;
   top: 0;
   padding: 10px 16px;
-  background: var(--accent);
+  background: var(--accent-btn);
   color: var(--accent-ink);
   z-index: 100;
 }
@@ -128,12 +130,12 @@ svg { display: block; }
 .btn:active { transform: translateY(1px); }
 
 .btn--primary {
-  background: var(--accent);
+  background: var(--accent-btn);
   color: var(--accent-ink);
   box-shadow: 0 10px 30px -12px rgba(124, 92, 255, .8);
 }
 .btn--primary:hover {
-  background: #6b48ff;
+  background: var(--accent-btn-h);
   color: var(--accent-ink);
 }
 
@@ -186,7 +188,7 @@ svg { display: block; }
   width: 30px;
   height: 30px;
   border-radius: 9px;
-  background: var(--accent);
+  background: var(--accent-btn);
   color: var(--accent-ink);
   font-size: 15px;
 }
@@ -544,7 +546,7 @@ svg { display: block; }
 .step__num {
   display: block;
   margin-bottom: 14px;
-  color: var(--accent);
+  color: var(--accent-soft);
   font-size: 15px;
   font-weight: 700;
   letter-spacing: .1em;

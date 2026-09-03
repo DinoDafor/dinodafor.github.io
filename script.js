@@ -187,7 +187,123 @@
     }
   }
 
-  /* ---- 6. Яндекс.Метрика ----
+  /* ---- 6. Калькулятор ----
+     Все цены и сроки живут в data-атрибутах разметки,
+     здесь только сложение и сборка сообщения для Telegram. */
+
+  var calc = document.querySelector('.calc');
+
+  if (calc) {
+    var priceOut = document.getElementById('calc-price');
+    var daysOut = document.getElementById('calc-days');
+    var summaryOut = document.getElementById('calc-summary');
+    var sendLink = document.getElementById('calc-send');
+    var urgent = document.getElementById('calc-urgent');
+    var options = Array.prototype.slice.call(calc.querySelectorAll('.calc__opt'));
+
+    var num = function (el, name) { return parseInt(el.getAttribute(name), 10) || 0; };
+
+    var money = function (value) {
+      return Math.round(value / 1000) * 1000;
+    };
+
+    var format = function (value) {
+      return String(money(value)).replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
+    };
+
+    var checkedType = function () {
+      return calc.querySelector('input[name="calc-type"]:checked');
+    };
+
+    // опции, не относящиеся к выбранному типу, прячем и снимаем
+    var syncOptions = function (key) {
+      options.forEach(function (opt) {
+        var fits = opt.getAttribute('data-for').split(' ').indexOf(key) !== -1;
+        opt.hidden = !fits;
+        if (!fits) { opt.querySelector('input').checked = false; }
+      });
+    };
+
+    var update = function () {
+      var type = checkedType();
+      if (!type) { return; }
+
+      var key = type.getAttribute('data-key');
+      syncOptions(key);
+
+      var priceMin = num(type, 'data-price-min');
+      var priceMax = num(type, 'data-price-max');
+      var daysMin = num(type, 'data-days-min');
+      var daysMax = num(type, 'data-days-max');
+      var picked = [];
+
+      options.forEach(function (opt) {
+        var input = opt.querySelector('input');
+        if (opt.hidden || !input.checked) { return; }
+        priceMin += num(input, 'data-price-min');
+        priceMax += num(input, 'data-price-max');
+        daysMin += num(input, 'data-days-min');
+        daysMax += num(input, 'data-days-max');
+        picked.push(input.value);
+      });
+
+      var rush = urgent && urgent.checked;
+      if (rush) {
+        priceMin *= 1.3;
+        priceMax *= 1.3;
+        daysMin = Math.max(2, Math.round(daysMin * 0.7));
+        daysMax = Math.max(3, Math.round(daysMax * 0.7));
+      }
+
+      priceOut.textContent = format(priceMin) + ' — ' + format(priceMax) + ' \u20BD';
+      daysOut.textContent = daysMin + '–' + daysMax + ' рабочих дней';
+
+      summaryOut.innerHTML = '';
+      picked.forEach(function (name) {
+        var li = document.createElement('li');
+        li.textContent = name.charAt(0).toUpperCase() + name.slice(1);
+        summaryOut.appendChild(li);
+      });
+
+      var message = 'Здравствуйте! Пишу с сайта. ' + type.value + '.';
+      if (picked.length) { message += ' Нужно: ' + picked.join(', ') + '.'; }
+      if (rush) { message += ' Хотелось бы срочно.'; }
+      message += ' Расчёт на сайте: ' + format(priceMin) + '–' + format(priceMax) +
+                 ' \u20BD, ' + daysMin + '–' + daysMax + ' дней. Задача:';
+
+      sendLink.href = 'https://t.me/DinoDafor?text=' + encodeURIComponent(message);
+    };
+
+    calc.addEventListener('change', update);
+    calc.addEventListener('submit', function (e) { e.preventDefault(); });
+    update();
+  }
+
+  /* ---- 7. Кнопки «скопировать» у контактов ---- */
+
+  var copyButtons = document.querySelectorAll('.copy');
+
+  Array.prototype.forEach.call(copyButtons, function (button) {
+    var label = button.querySelector('.copy__label');
+    var initial = label ? label.textContent : '';
+
+    button.addEventListener('click', function () {
+      var value = button.getAttribute('data-copy');
+      if (!navigator.clipboard) { return; }
+
+      navigator.clipboard.writeText(value).then(function () {
+        button.classList.add('is-done');
+        if (label) { label.textContent = 'Скопировано'; }
+
+        setTimeout(function () {
+          button.classList.remove('is-done');
+          if (label) { label.textContent = initial; }
+        }, 1800);
+      }).catch(function () {});
+    });
+  });
+
+  /* ---- 8. Яндекс.Метрика ----
      ВПИШИТЕ НОМЕР СЧЁТЧИКА в METRIKA_ID (только цифры, в кавычках).
      Пока строка пустая, никакая статистика не собирается и запросы не идут.
      Счётчик заводится на metrika.yandex.ru за пару минут.
@@ -232,7 +348,7 @@
     });
   }
 
-  /* ---- 7. Год в подвале ---- */
+  /* ---- 9. Год в подвале ---- */
 
   var year = document.getElementById('year');
   if (year) {

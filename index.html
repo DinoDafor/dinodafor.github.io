@@ -204,6 +204,7 @@
     </a>
     <nav class="nav" aria-label="Основная навигация">
       <a href="#services">Услуги</a>
+      <a href="#calc">Расчёт</a>
       <a href="#cases">Кейсы</a>
       <a href="#projects">Проекты</a>
       <a href="#reviews">Отзывы</a>
@@ -361,7 +362,180 @@
     </div>
   </section>
 
-  <!-- ==================== 3. КЕЙСЫ ==================== -->
+  <!-- ==================== 3. КАЛЬКУЛЯТОР ====================
+    ВСЕ ЦИФРЫ ЗАДАНЫ В РАЗМЕТКЕ, скрипт только складывает:
+      data-price-min / data-price-max — вилка стоимости в рублях
+      data-days-min  / data-days-max  — срок в рабочих днях
+      data-for у опции — типы проектов, к которым она относится
+    Чтобы поменять цены — правьте атрибуты здесь, в script.js лезть не нужно.
+    Новая опция: скопируйте <label class="calc__opt">, задайте цифры и data-for.
+  -->
+  <section class="section" id="calc" aria-labelledby="calc-title">
+    <div class="container">
+      <p class="section__eyebrow reveal">Расчёт</p>
+      <h2 class="section__title reveal" id="calc-title">Прикиньте бюджет за минуту</h2>
+      <p class="section__lead reveal">
+        Соберите проект из блоков — покажу вилку и срок. Это ориентир, а не смета:
+        точную цену назову после короткого разговора, и она не вырастет по ходу работы.
+      </p>
+
+      <form class="calc reveal" novalidate>
+        <div class="calc__form">
+
+          <fieldset class="calc__group">
+            <legend class="calc__legend">Что нужно сделать</legend>
+            <div class="calc__types">
+              <label class="calc__type">
+                <input type="radio" name="calc-type" value="Чат-бот для Telegram или MAX"
+                       data-price-min="60000" data-price-max="90000"
+                       data-days-min="7" data-days-max="14" data-key="bot" checked>
+                <span class="calc__type-body">
+                  <b>Чат-бот</b>
+                  <span>Telegram или MAX</span>
+                </span>
+              </label>
+              <label class="calc__type">
+                <input type="radio" name="calc-type" value="Сайт или лендинг"
+                       data-price-min="45000" data-price-max="70000"
+                       data-days-min="5" data-days-max="10" data-key="site">
+                <span class="calc__type-body">
+                  <b>Сайт</b>
+                  <span>лендинг или визитка</span>
+                </span>
+              </label>
+              <label class="calc__type">
+                <input type="radio" name="calc-type" value="Интеграция сервисов"
+                       data-price-min="40000" data-price-max="65000"
+                       data-days-min="4" data-days-max="12" data-key="api">
+                <span class="calc__type-body">
+                  <b>Интеграция</b>
+                  <span>связать сервисы между собой</span>
+                </span>
+              </label>
+              <label class="calc__type">
+                <input type="radio" name="calc-type" value="Автоматизация процесса"
+                       data-price-min="30000" data-price-max="55000"
+                       data-days-min="3" data-days-max="14" data-key="auto">
+                <span class="calc__type-body">
+                  <b>Автоматизация</b>
+                  <span>убрать ручную рутину</span>
+                </span>
+              </label>
+            </div>
+          </fieldset>
+
+          <fieldset class="calc__group">
+            <legend class="calc__legend">Что добавить</legend>
+            <div class="calc__opts">
+
+              <label class="calc__opt" data-for="bot site">
+                <input type="checkbox" value="приём оплаты"
+                       data-price-min="15000" data-price-max="25000"
+                       data-days-min="2" data-days-max="4">
+                <span class="calc__opt-body">
+                  <b>Приём оплаты</b>
+                  <span>карты, СБП, чеки</span>
+                </span>
+              </label>
+
+              <label class="calc__opt" data-for="bot site api auto">
+                <input type="checkbox" value="выгрузка в CRM или таблицы"
+                       data-price-min="12000" data-price-max="20000"
+                       data-days-min="2" data-days-max="3">
+                <span class="calc__opt-body">
+                  <b>Выгрузка в CRM или таблицы</b>
+                  <span>заявки не теряются</span>
+                </span>
+              </label>
+
+              <label class="calc__opt" data-for="bot api auto">
+                <input type="checkbox" value="админ-панель с отчётами"
+                       data-price-min="20000" data-price-max="35000"
+                       data-days-min="3" data-days-max="6">
+                <span class="calc__opt-body">
+                  <b>Админ-панель с отчётами</b>
+                  <span>видеть заявки и статистику</span>
+                </span>
+              </label>
+
+              <label class="calc__opt" data-for="bot">
+                <input type="checkbox" value="ответы на частые вопросы"
+                       data-price-min="18000" data-price-max="30000"
+                       data-days-min="3" data-days-max="5">
+                <span class="calc__opt-body">
+                  <b>Ответы на частые вопросы</b>
+                  <span>бот разгружает менеджера</span>
+                </span>
+              </label>
+
+              <label class="calc__opt" data-for="site">
+                <input type="checkbox" value="тексты и подбор изображений"
+                       data-price-min="15000" data-price-max="25000"
+                       data-days-min="3" data-days-max="5">
+                <span class="calc__opt-body">
+                  <b>Тексты и изображения</b>
+                  <span>не придётся писать самому</span>
+                </span>
+              </label>
+
+              <label class="calc__opt" data-for="site">
+                <input type="checkbox" value="индивидуальный дизайн"
+                       data-price-min="25000" data-price-max="40000"
+                       data-days-min="4" data-days-max="7">
+                <span class="calc__opt-body">
+                  <b>Индивидуальный дизайн</b>
+                  <span>вместо типовой структуры</span>
+                </span>
+              </label>
+
+              <label class="calc__opt" data-for="api auto">
+                <input type="checkbox" value="перенос данных из старой системы"
+                       data-price-min="10000" data-price-max="20000"
+                       data-days-min="2" data-days-max="4">
+                <span class="calc__opt-body">
+                  <b>Перенос данных</b>
+                  <span>из старой системы или таблиц</span>
+                </span>
+              </label>
+
+              <label class="calc__opt" data-for="bot site api auto">
+                <input type="checkbox" value="поддержка 3 месяца"
+                       data-price-min="18000" data-price-max="18000"
+                       data-days-min="0" data-days-max="0">
+                <span class="calc__opt-body">
+                  <b>Поддержка 3 месяца</b>
+                  <span>правки и ответы вне очереди</span>
+                </span>
+              </label>
+
+            </div>
+          </fieldset>
+
+          <label class="calc__urgent">
+            <input type="checkbox" id="calc-urgent">
+            <span class="calc__opt-body">
+              <b>Нужно срочно</b>
+              <span>беру в работу вне очереди, срок короче примерно на треть</span>
+            </span>
+          </label>
+        </div>
+
+        <aside class="calc__result" aria-live="polite">
+          <p class="calc__result-label">Ориентировочно</p>
+          <p class="calc__price" id="calc-price">60 000 — 90 000 ₽</p>
+          <p class="calc__days" id="calc-days">7–14 рабочих дней</p>
+          <ul class="calc__summary" id="calc-summary"></ul>
+          <a class="btn btn--primary calc__send" id="calc-send" href="https://t.me/DinoDafor">
+            <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21.9 4.3 18.7 20c-.2 1-.9 1.3-1.7.8l-4.7-3.5-2.3 2.2c-.3.3-.5.5-1 .5l.3-4.8L18 6.6c.4-.3-.1-.5-.6-.2L7.4 12.7l-4.7-1.5c-1-.3-1-1 .2-1.5l18-6.9c.9-.3 1.6.2 1.3 1.5Z"/></svg>
+            Отправить расчёт в Telegram
+          </a>
+          <p class="calc__note">Расчёт подставится в сообщение — останется дописать пару слов о задаче.</p>
+        </aside>
+      </form>
+    </div>
+  </section>
+
+  <!-- ==================== 4. КЕЙСЫ ==================== -->
   <!--
     КАК ЗАМЕНЯТЬ КЕЙСЫ:
     .case__tag     — сфера клиента
@@ -466,7 +640,7 @@
     </div>
   </section>
 
-  <!-- ==================== 4. ПРОЕКТЫ ====================
+  <!-- ==================== 5. ПРОЕКТЫ ====================
     КАК ЗАМЕНЯТЬ ПРОЕКТЫ:
     1. Скриншот: положите свой файл в папку images/ и укажите его в src.
        Размер 800×500 (или любой в пропорции 16:10), формат jpg / png / webp.
@@ -571,7 +745,7 @@
     </div>
   </section>
 
-  <!-- ==================== 5. КАК Я РАБОТАЮ ==================== -->
+  <!-- ==================== 6. КАК Я РАБОТАЮ ==================== -->
   <section class="section" id="process" aria-labelledby="process-title">
     <div class="container">
       <p class="section__eyebrow reveal">Процесс</p>
@@ -603,7 +777,7 @@
     </div>
   </section>
 
-  <!-- ==================== 6. ОБО МНЕ ==================== -->
+  <!-- ==================== 7. ОБО МНЕ ==================== -->
   <section class="section" id="about" aria-labelledby="about-title">
     <div class="container about">
       <div class="about__text">
@@ -653,7 +827,7 @@
     </div>
   </section>
 
-  <!-- ==================== 7. ОТЗЫВЫ ====================
+  <!-- ==================== 8. ОТЗЫВЫ ====================
     ТЕКСТОВЫЙ ОТЗЫВ: текст в <blockquote>, дальше имя, должность и компания.
     В .review__avatar — инициалы человека (двумя буквами) либо замените
     <span> на <img> со своей картинкой и alt.
@@ -757,7 +931,7 @@
     </div>
   </section>
 
-  <!-- ==================== 8. ВОПРОСЫ И ОТВЕТЫ ====================
+  <!-- ==================== 9. ВОПРОСЫ И ОТВЕТЫ ====================
     Блок работает на теге <details> — без всякого JS.
     Новый вопрос: скопируйте <details class="faq__item reveal"> целиком.
     Ответы проверьте под себя: там условия оплаты, гарантий и поддержки.
@@ -825,7 +999,7 @@
     </div>
   </section>
 
-  <!-- ==================== 9. КОНТАКТЫ ==================== -->
+  <!-- ==================== 10. КОНТАКТЫ ==================== -->
   <section class="section section--contacts" id="contacts" aria-labelledby="contacts-title">
     <div class="container">
       <div class="contacts reveal">
@@ -837,23 +1011,35 @@
         </p>
 
         <ul class="contacts__list">
-          <li>
+          <li class="contacts__item">
             <a href="https://t.me/DinoDafor">
               <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21.9 4.3 18.7 20c-.2 1-.9 1.3-1.7.8l-4.7-3.5-2.3 2.2c-.3.3-.5.5-1 .5l.3-4.8L18 6.6c.4-.3-.1-.5-.6-.2L7.4 12.7l-4.7-1.5c-1-.3-1-1 .2-1.5l18-6.9c.9-.3 1.6.2 1.3 1.5Z"/></svg>
               <span><b>Telegram</b><br>@DinoDafor</span>
             </a>
+            <button class="copy" type="button" data-copy="@DinoDafor">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg>
+              <span class="copy__label">Скопировать ник</span>
+            </button>
           </li>
-          <li>
+          <li class="contacts__item">
             <a href="mailto:dinodafor@mail.ru">
               <svg class="icon icon--line" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18v12H3z"/><path d="m3 7 9 6 9-6"/></svg>
               <span><b>Почта</b><br>dinodafor@mail.ru</span>
             </a>
+            <button class="copy" type="button" data-copy="dinodafor@mail.ru">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg>
+              <span class="copy__label">Скопировать почту</span>
+            </button>
           </li>
-          <li>
+          <li class="contacts__item">
             <a href="https://github.com/DinoDafor">
               <svg class="icon icon--line" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 19c-4 1.2-4-2-6-2.5m12 4.5v-3.4c0-1 .1-1.4-.5-2 2.3-.3 4.5-1.2 4.5-5.1 0-1.1-.4-2-1-2.7.1-.3.5-1.3-.1-2.7 0 0-.9-.3-2.9 1a10 10 0 0 0-5 0C8 5.1 7.1 5.4 7.1 5.4c-.6 1.4-.2 2.4-.1 2.7-.6.7-1 1.6-1 2.7 0 3.9 2.2 4.8 4.5 5.1-.4.4-.5.9-.5 1.5V21"/></svg>
               <span><b>GitHub</b><br>github.com/DinoDafor</span>
             </a>
+            <button class="copy" type="button" data-copy="https://github.com/DinoDafor">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg>
+              <span class="copy__label">Скопировать ссылку</span>
+            </button>
           </li>
         </ul>
 

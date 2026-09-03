@@ -844,6 +844,25 @@ svg { display: block; }
   justify-content: space-between;
 }
 
+/* ---------- липкая кнопка на мобильном ---------- */
+
+.mobile-cta {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 60;
+  padding: 12px 16px;
+  padding-bottom: calc(12px + env(safe-area-inset-bottom, 0px));
+  background: rgba(13, 13, 16, .92);
+  backdrop-filter: blur(12px);
+  border-top: 1px solid var(--line);
+  transform: translateY(130%);
+  transition: transform .3s cubic-bezier(.22, .61, .36, 1);
+}
+.mobile-cta.is-shown { transform: none; }
+.mobile-cta .btn { width: 100%; }
+
 /* ---------- появление при скролле ---------- */
 
 .reveal {
@@ -862,6 +881,11 @@ svg { display: block; }
    Адаптив
    ============================================================ */
 
+/* место под липкую кнопку, чтобы она не перекрывала подвал */
+@media (max-width: 699px) {
+  body { padding-bottom: 78px; }
+}
+
 @media (min-width: 480px) {
   .hero__actions { flex-direction: row; flex-wrap: wrap; }
   .hero__facts { grid-template-columns: repeat(3, 1fr); gap: 20px; }
@@ -873,6 +897,7 @@ svg { display: block; }
   :root { --pad: 28px; }
 
   .header__cta { display: inline-flex; }
+  .mobile-cta { display: none; }
   .cards { grid-template-columns: repeat(2, 1fr); gap: 20px; }
   .projects { grid-template-columns: repeat(2, 1fr); gap: 20px; }
   .reviews { grid-template-columns: repeat(2, 1fr); gap: 20px; }
@@ -889,7 +914,7 @@ svg { display: block; }
   body { font-size: 18px; }
   .nav {
     display: flex;
-    gap: 28px;
+    gap: 20px;
   }
   .steps { grid-template-columns: repeat(4, 1fr); }
   .projects { grid-template-columns: repeat(3, 1fr); }
@@ -901,6 +926,10 @@ svg { display: block; }
   }
   .contacts__list { grid-template-columns: repeat(3, 1fr); }
   .cases { gap: 22px; }
+}
+
+@media (min-width: 1240px) {
+  .nav { gap: 30px; }
 }
 
 /* Отдельные задержки, чтобы карточки появлялись каскадом */
@@ -929,7 +958,7 @@ svg { display: block; }
 }
 
 @media print {
-  .site-header, .hero__actions, .btn { display: none; }
+  .site-header, .hero__actions, .btn, .mobile-cta { display: none; }
   body { background: #fff; color: #000; }
   .reveal { opacity: 1; transform: none; }
 }

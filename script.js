@@ -60,7 +60,36 @@
     window.addEventListener('scroll', onScroll, { passive: true });
   }
 
-  /* ---- 3. Год в подвале ---- */
+  /* ---- 3. Липкая кнопка на мобильном ----
+     Показываем, когда первый экран уже прокручен,
+     и убираем, когда виден блок контактов: там кнопка и так есть. */
+
+  var cta = document.querySelector('.mobile-cta');
+  var hero = document.querySelector('.hero');
+  var contacts = document.getElementById('contacts');
+
+  if (cta && hero && contacts && 'IntersectionObserver' in window) {
+    var heroVisible = true;
+    var contactsVisible = false;
+
+    var update = function () {
+      cta.classList.toggle('is-shown', !heroVisible && !contactsVisible);
+    };
+
+    new IntersectionObserver(function (entries) {
+      heroVisible = entries[0].isIntersecting;
+      update();
+    }, { threshold: 0 }).observe(hero);
+
+    new IntersectionObserver(function (entries) {
+      contactsVisible = entries[0].isIntersecting;
+      update();
+    }, { threshold: 0 }).observe(contacts);
+  } else if (cta) {
+    cta.classList.add('is-shown');
+  }
+
+  /* ---- 4. Год в подвале ---- */
 
   var year = document.getElementById('year');
   if (year) {

@@ -959,6 +959,34 @@ a.chip:hover {
   font-size: 15.5px;
 }
 
+/* ---------- зарубежные заказчики ---------- */
+
+.abroad {
+  display: grid;
+  gap: 16px;
+  margin: 0;
+}
+
+.abroad__item {
+  padding: 24px 22px;
+  background: var(--bg-card);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+}
+.abroad__item dt {
+  margin-bottom: 10px;
+  color: var(--accent-soft);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+}
+.abroad__item dd {
+  margin: 0;
+  color: var(--text-muted);
+  font-size: 15.5px;
+}
+
 /* ---------- обо мне ---------- */
 
 .about {
@@ -1915,6 +1943,7 @@ a.chip:hover {
   .projects { grid-template-columns: repeat(2, 1fr); gap: 20px; }
   .reviews { grid-template-columns: repeat(2, 1fr); gap: 20px; }
   .guarantees { grid-template-columns: repeat(2, 1fr); gap: 18px; }
+  .abroad { grid-template-columns: repeat(2, 1fr); gap: 18px; }
   .plans { grid-template-columns: repeat(3, 1fr); gap: 18px; }
   .notes { grid-template-columns: repeat(3, 1fr); gap: 20px; }
   .notes--list { grid-template-columns: repeat(2, 1fr); }
@@ -1954,6 +1983,7 @@ a.chip:hover {
   .projects { grid-template-columns: repeat(3, 1fr); }
   .reviews { grid-template-columns: repeat(3, 1fr); }
   .guarantees { grid-template-columns: repeat(4, 1fr); }
+  .abroad { grid-template-columns: repeat(3, 1fr); }
   .case-meta { grid-template-columns: repeat(4, 1fr); }
   .clients__list { gap: 18px 40px; }
   .page-cta { padding: 48px 40px; }

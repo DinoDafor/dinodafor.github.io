@@ -535,6 +535,30 @@ STRINGS = {
     'Коротко: я дешевле и быстрее на задачах, которые тянет один человек за 2–6 недель. На проекте с командой из пяти человек и годовым горизонтом выгоднее студия — это нормально.':
         'In short: I am cheaper and faster on tasks one person can carry in 2–6 weeks. For a project needing a team of five over a year, an agency is the better deal — and that is fine.',
 
+    # ---------- зарубежные заказчики ----------
+    'Из-за рубежа': 'From abroad',
+    'Работаю с заказчиками за пределами России': 'I work with clients outside Russia',
+    'У зарубежного клиента половина вопросов — организационные: на каком языке, в какой валюте, как подписываем и как платим. Отвечаю на них заранее, чтобы не выяснять это в переписке.':
+        'For a client abroad, half the questions are logistics: which language, which currency, how we sign and how you pay. Here are the answers up front, so we don’t spend the first email on them.',
+    'Язык': 'Language',
+    'Переписка, документация и комментарии в коде — на английском. Созвоны тоже: говорю свободно на рабочие темы, хотя и с акцентом.':
+        'Correspondence, documentation and code comments in English. Calls too: I speak fluently on work topics, accent included.',
+    'Часовой пояс': 'Time zone',
+    'Москва, UTC+3. С Европой пересекаемся весь рабочий день, с восточным побережьем США — с 16:00 до 20:00 по Москве.':
+        'Moscow, UTC+3. That overlaps the whole working day with Europe and 16:00–20:00 Moscow time with the US East Coast.',
+    'Валюта и цены': 'Currency and prices',
+    'Цены на сайте в рублях, переключатель наверху показывает ориентир в долларах и евро. Валюта расчёта и итоговая сумма фиксируются в договоре до старта.':
+        'Prices on the site are in roubles; the switcher at the top shows a reference figure in dollars and euros. The settlement currency and the final amount are fixed in the contract before we start.',
+    'Оплата': 'Payment',
+    'Способ подбираем под вашу страну — напишите, откуда вы, и я скажу, какие варианты рабочие. Схема оплаты та же: 50% предоплаты, остаток при сдаче.':
+        'We pick a method that works for your country — tell me where you are and I’ll say which options are viable. The schedule is the same: 50% up front, the rest on delivery.',
+    'Документы': 'Paperwork',
+    'Договор и счёт готовлю на русском и английском. Я самозанятый по российскому праву, закрывающие документы предоставляю.':
+        'I prepare the contract and invoice in Russian and English. I am self-employed under Russian law and provide closing documents.',
+    'Как начинаем': 'How we start',
+    'Бриф или получасовой созвон, затем смета с фиксированной ценой и сроком. Дальше — демо каждые 2–3 дня, чтобы расстояние не превращалось в неизвестность.':
+        'The brief or a half-hour call, then an estimate with a fixed price and timeline. After that, a demo every 2–3 days so distance never turns into silence.',
+
     # ---------- обо мне ----------
     'Коротко о том, с кем вы будете работать': 'A few words about who you’ll be working with',
     'Меня зовут Михаил, я разработчик на фрилансе и с 2018 года делаю то, что экономит людям часы: боты, интеграции и сайты для небольших компаний. Обычно ко мне приходят, когда бизнес уже работает, но держится на переписках и десятке таблиц. Я разбираюсь в процессе, предлагаю самое простое решение из работающих и довожу его до продакшена — без лишних сервисов и подписок, которые потом непонятно кто оплачивает. Работаю один, поэтому веду 2–3 проекта одновременно и отвечаю в течение рабочего дня.':

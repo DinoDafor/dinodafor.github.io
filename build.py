@@ -32,6 +32,16 @@ SKIP_CONTENT = {'width=device-width, initial-scale=1', 'utf-8'}
 
 CYRILLIC = re.compile('[а-яА-ЯёЁ]')
 
+# курс берём из script.js, чтобы он жил ровно в одном месте
+_rate = re.search(r"RATES = \{ RUB: 1, USD: (\d+)",
+                  open(os.path.join(BASE, 'script.js'), encoding='utf-8').read())
+USD_RATE = int(_rate.group(1)) if _rate else 95
+
+
+def usd(rub):
+    """Рубли в доллары — той же арифметикой, что и в script.js."""
+    return '{:,}'.format(int(round(rub / USD_RATE / 10) * 10))
+
 try:
     from translations import STRINGS
 except ImportError:                                    # первый запуск
@@ -108,6 +118,7 @@ class Builder(HTMLParser):
         self.in_ldjson = False
         self.in_code = False
         self.in_lang_switch = False
+        self.money = None
 
     # --- служебное ---
     def emit(self, text):
@@ -150,6 +161,8 @@ class Builder(HTMLParser):
         d = dict(attrs)
         if tag == 'a' and 'switch__lang' in (d.get('class') or ''):
             self.in_lang_switch = True
+        if 'money' in (d.get('class') or '').split():
+            self.money = d
         if tag == 'script' and d.get('type') == 'application/ld+json':
             self.in_ldjson = True
         if tag in ('script', 'style', 'code', 'pre'):
@@ -167,7 +180,16 @@ class Builder(HTMLParser):
         self.emit('</%s>' % tag)
 
     def handle_data(self, data):
-        if self.in_lang_switch:
+        if self.money is not None:
+            # цену не переводим, а пересчитываем: en/ живёт в долларах
+            low = usd(int(self.money['data-rub']))
+            high = self.money.get('data-rub-max')
+            text = '$' + low + ('–' + usd(int(high)) if high else '')
+            if self.money.get('data-prefix'):
+                text = 'from ' + text
+            self.emit(text)
+            self.money = None
+        elif self.in_lang_switch:
             self.emit(data.replace('EN', 'RU'))   # подпись ведёт обратно на русскую версию
             self.in_lang_switch = False
         elif self.in_ldjson:

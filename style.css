@@ -217,31 +217,6 @@ svg { display: block; }
   color: var(--text);
 }
 
-.switch__cur {
-  display: flex;
-  border: 1px solid var(--line);
-  border-radius: 8px;
-  overflow: hidden;
-}
-
-.switch__cur-btn {
-  padding: 7px 10px;
-  border: 0;
-  background: transparent;
-  color: var(--text-muted);
-  font-family: inherit;
-  font-size: 14px;
-  line-height: 1;
-  cursor: pointer;
-  transition: background .2s ease, color .2s ease;
-}
-.switch__cur-btn + .switch__cur-btn { border-left: 1px solid var(--line); }
-.switch__cur-btn:hover { color: var(--text); }
-.switch__cur-btn.is-active {
-  background: var(--accent-btn);
-  color: var(--accent-ink);
-}
-
 .calc__rate {
   margin-top: 10px;
   color: var(--text-muted);

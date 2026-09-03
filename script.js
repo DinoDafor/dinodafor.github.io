@@ -355,21 +355,26 @@
   }
 
   /* ---- 6. Валюта ----
+     Русская версия считает в рублях, английская — в долларах.
      КУРС ЗАДАЁТСЯ ЗДЕСЬ И ОБНОВЛЯЕТСЯ РУКАМИ. Внешнее API не используется
      намеренно: оно однажды молча отвалится, и сайт покажет ерунду.
+     Тот же курс берёт build.py, когда пересчитывает цены в en/,
+     поэтому править его нужно только в этой строке.
+
      RATES — сколько рублей в одной единице валюты. */
 
-  var RATES = { RUB: 1, USD: 95, EUR: 103 };
-  var RATE_DATE = '3 сентября 2026';
-  var CURRENCY_KEY = 'currency';
-  var currency = 'RUB';
-  try { currency = window.localStorage.getItem(CURRENCY_KEY) || 'RUB'; } catch (e) {}
-  if (!RATES[currency]) { currency = 'RUB'; }
+  var RATES = { RUB: 1, USD: 95 };
+  var RATE_DATE = isEnglish ? '3 September 2026' : '3 сентября 2026';
+
+  var currency = isEnglish ? 'USD' : 'RUB';
 
   var calcUpdate = null;   // калькулятор подставит сюда свою перерисовку
 
+  // в русском разделитель тысяч — пробел, в английском — запятая
+  var thousands = isEnglish ? ',' : ' ';
+
   var spaced = function (value) {
-    return String(value).replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
+    return String(value).replace(/\B(?=(\d{3})+(?!\d))/g, thousands);
   };
 
   // суммы до 10 000 округляем до сотен, иначе почасовая ставка «поедет»
@@ -382,8 +387,7 @@
     if (currency === 'RUB') {
       return spaced(roundRub(rub)) + ' \u20BD';
     }
-    var value = Math.round(rub / RATES[currency] / 10) * 10;
-    return (currency === 'USD' ? '$' : '\u20AC') + spaced(value);
+    return '$' + spaced(Math.round(rub / RATES[currency] / 10) * 10);
   };
 
   // диапазон: вторая сумма без знака валюты
@@ -393,7 +397,7 @@
     }
     var a = Math.round(min / RATES[currency] / 10) * 10;
     var b = Math.round(max / RATES[currency] / 10) * 10;
-    return (currency === 'USD' ? '$' : '\u20AC') + spaced(a) + '–' + spaced(b);
+    return '$' + spaced(a) + '–' + spaced(b);
   };
 
   var applyCurrency = function () {
@@ -409,39 +413,19 @@
       node.textContent = text;
     });
 
-    var buttons = document.querySelectorAll('.switch__cur-btn');
-    Array.prototype.forEach.call(buttons, function (button) {
-      var active = button.getAttribute('data-cur') === currency;
-      button.classList.toggle('is-active', active);
-      button.setAttribute('aria-pressed', active ? 'true' : 'false');
-    });
-
+    // пояснение про курс нужно только на английской версии
     var notes = document.querySelectorAll('[data-rate-note]');
     Array.prototype.forEach.call(notes, function (note) {
-      if (currency === 'RUB') {
-        note.textContent = isEnglish
-          ? 'Prices are fixed in roubles; other currencies are shown for reference.'
-          : 'Итоговая сумма фиксируется в рублях, другие валюты — для ориентира.';
+      if (isEnglish) {
+        note.textContent = 'Dollar figures are converted at the rate of ' + RATE_DATE +
+          ' (1 USD = ' + RATES.USD + ' RUB); the contract amount is fixed in roubles.';
       } else {
-        note.textContent = (isEnglish ? 'Rate as of ' : 'Курс на ') + RATE_DATE +
-          ': 1 ' + currency + ' = ' + RATES[currency] + ' \u20BD. ' +
-          (isEnglish ? 'The contract amount is fixed in roubles.'
-                     : 'Сумма в договоре фиксируется в рублях.');
+        note.hidden = true;
       }
     });
 
     if (calcUpdate) { calcUpdate(); }
   };
-
-  var currencyButtons = document.querySelectorAll('.switch__cur-btn');
-
-  Array.prototype.forEach.call(currencyButtons, function (button) {
-    button.addEventListener('click', function () {
-      currency = button.getAttribute('data-cur');
-      try { window.localStorage.setItem(CURRENCY_KEY, currency); } catch (e) {}
-      applyCurrency();
-    });
-  });
 
   applyCurrency();
 

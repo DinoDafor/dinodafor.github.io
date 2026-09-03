@@ -1067,6 +1067,47 @@ svg { display: block; }
 .mobile-cta.is-shown { transform: none; }
 .mobile-cta .btn { width: 100%; }
 
+/* ---------- уведомление о cookie ---------- */
+
+.cookie {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 70;
+  padding: 16px;
+  padding-bottom: calc(16px + env(safe-area-inset-bottom, 0px));
+  background: rgba(19, 19, 24, .96);
+  backdrop-filter: blur(12px);
+  border-top: 1px solid var(--line);
+  transform: translateY(130%);
+  transition: transform .35s cubic-bezier(.22, .61, .36, 1);
+}
+.cookie[hidden] { display: none; }
+.cookie.is-shown { transform: none; }
+
+.cookie__inner {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  align-items: flex-start;
+  width: 100%;
+  max-width: var(--container);
+  margin: 0 auto;
+}
+
+.cookie__text {
+  color: var(--text-muted);
+  font-size: 14.5px;
+  line-height: 1.5;
+}
+
+.cookie__ok {
+  flex: none;
+  cursor: pointer;
+  font-family: inherit;
+}
+
 /* ---------- появление при скролле ---------- */
 
 .reveal {
@@ -1099,6 +1140,14 @@ svg { display: block; }
 
 @media (min-width: 700px) {
   :root { --pad: 28px; }
+
+  .cookie { padding: 18px 28px; }
+  .cookie__inner {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 28px;
+  }
 
   .header__cta { display: inline-flex; }
   .mobile-cta { display: none; }
@@ -1176,7 +1225,7 @@ svg { display: block; }
 }
 
 @media print {
-  .site-header, .hero__actions, .btn, .mobile-cta { display: none; }
+  .site-header, .hero__actions, .btn, .mobile-cta, .cookie { display: none; }
   .chat .msg { display: block; opacity: 1; transform: none; }
   .chat .msg--chips { display: flex; }
   .chat .msg--typing { display: none; }

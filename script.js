@@ -64,6 +64,9 @@
      Показываем, когда первый экран уже прокручен,
      и убираем, когда виден блок контактов: там кнопка и так есть. */
 
+  var cookieOpen = false;   // пока висит уведомление о cookie, кнопку не показываем
+  var updateCta = null;
+
   var cta = document.querySelector('.mobile-cta');
   var hero = document.querySelector('.hero');
   var contacts = document.getElementById('contacts');
@@ -73,8 +76,9 @@
     var contactsVisible = false;
 
     var update = function () {
-      cta.classList.toggle('is-shown', !heroVisible && !contactsVisible);
+      cta.classList.toggle('is-shown', !heroVisible && !contactsVisible && !cookieOpen);
     };
+    updateCta = update;
 
     new IntersectionObserver(function (entries) {
       heroVisible = entries[0].isIntersecting;
@@ -89,7 +93,43 @@
     cta.classList.add('is-shown');
   }
 
-  /* ---- 4. Диалог с ботом на первом экране ----
+  /* ---- 4. Уведомление о cookie ----
+     Показываем один раз: ответ запоминаем в localStorage.
+     В приватном режиме доступ к хранилищу может быть запрещён —
+     поэтому обе операции обёрнуты в try/catch, и уведомление
+     в худшем случае просто покажется снова. */
+
+  var notice = document.querySelector('.cookie');
+
+  if (notice) {
+    var KEY = 'cookie-notice-accepted';
+    var seen = null;
+
+    try { seen = window.localStorage.getItem(KEY); } catch (e) { seen = null; }
+
+    if (!seen) {
+      cookieOpen = true;
+      notice.hidden = false;
+      void notice.offsetWidth;        // то же самое: даём браузеру исходное состояние
+      notice.classList.add('is-shown');
+    }
+
+    var okButton = notice.querySelector('.cookie__ok');
+
+    if (okButton) {
+      okButton.addEventListener('click', function () {
+        cookieOpen = false;
+        notice.classList.remove('is-shown');
+
+        try { window.localStorage.setItem(KEY, '1'); } catch (e) {}
+
+        setTimeout(function () { notice.hidden = true; }, 400);
+        if (updateCta) { updateCta(); }
+      });
+    }
+  }
+
+  /* ---- 5. Диалог с ботом на первом экране ----
      Реплики лежат в разметке, здесь они показываются по очереди.
      Перед ответами бота мигают три точки. Проигрывается один раз,
      когда мокап попадает в поле зрения. */
@@ -101,9 +141,8 @@
 
     var mount = function (el) {
       el.classList.add('is-mounted');
-      requestAnimationFrame(function () {
-        requestAnimationFrame(function () { el.classList.add('is-shown'); });
-      });
+      void el.offsetWidth;            // пересчёт стилей, иначе перехода не будет
+      el.classList.add('is-shown');
     };
 
     if (reduceMotion || !('IntersectionObserver' in window)) {
@@ -148,7 +187,7 @@
     }
   }
 
-  /* ---- 5. Яндекс.Метрика ----
+  /* ---- 6. Яндекс.Метрика ----
      ВПИШИТЕ НОМЕР СЧЁТЧИКА в METRIKA_ID (только цифры, в кавычках).
      Пока строка пустая, никакая статистика не собирается и запросы не идут.
      Счётчик заводится на metrika.yandex.ru за пару минут.
@@ -193,7 +232,7 @@
     });
   }
 
-  /* ---- 6. Год в подвале ---- */
+  /* ---- 7. Год в подвале ---- */
 
   var year = document.getElementById('year');
   if (year) {
